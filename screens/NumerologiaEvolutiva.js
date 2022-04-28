@@ -81,7 +81,7 @@ export default function NumerologiaEvolutiva(props) {
   };
 
   const alerta = () => {
-    Alert.alert("Aquí iría la exportación de datos");
+    Alert.alert("Aquí iría la exportación de datos.");
   };
 
   return (
