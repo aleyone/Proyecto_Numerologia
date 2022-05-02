@@ -50,7 +50,7 @@ export default function Espacio(props) {
             marginLeft: 15,
             backgroundColor: "#191B4D",
           }}
-          onPress={() => cerrarSesion()}
+          onPress={() => cerrarSesion(props)}
         />
       </View>
       <View style={styles.contenedorEstudios}>
