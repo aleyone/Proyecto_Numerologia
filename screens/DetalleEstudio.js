@@ -30,20 +30,13 @@ export default function DetalleEstudio(props) {
       setEstudio(result);
       setDatos(array);
     })();
-   /* (async () => {
-      const resultFamiliares = [];
-      const user = getUsuario();
+   (async () => {
       const result = await obtenerFamiliar ("estudio", props.route.params.estudioId);
-      console.log("Estoy recuperando los datos familiares desde detalleestudio")
-      console.log(result)
-      result.map((registro) => {
-        if (registro.Autor == user) {
-          resultFamiliares.push(registro);
-        }
-        
-      });
-      setFamiliares(resultFamiliares);
-    })();*/
+      console.log("Esto es el futuro array de familiares antes de setear ", result)
+      setFamiliares(result);
+    })();
+    console.log("FAMILIAREEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSS==============", familiares)
+
   }, []);
 
 
@@ -108,11 +101,11 @@ export default function DetalleEstudio(props) {
            
           </View>
           <ScrollView>
-         {/*} <View style={styles.contenedorEstudios}>
-       {familiares.map((familiar) => {
+         <View style={styles.contenedorEstudios}>
+     {familiares.map((familiar, i) => {
           return (
             <ListItem
-              key={estudioId}
+              key={i}
               bottomDivider
             >
               <ListItem.Chevron />
@@ -129,7 +122,7 @@ export default function DetalleEstudio(props) {
             </ListItem>
           );
         })}
-      </View>*/}
+      </View>
     </ScrollView>
     <View>
       <Text>
