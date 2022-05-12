@@ -16,6 +16,7 @@ import CrearEstudio from "../screens/CrearEstudio";
 import FormCrearConsultante from "./FormCrearConsultante";
 import AñadirFamiliar from "../screens/AñadirFamiliar";
 import NumerologiaEvolutiva from "../screens/NumerologiaEvolutiva";
+import NumerologiaTransgeneracional from "../screens/NumerologiaTransgeneracional";
 
 
 export default function Navigation() {
@@ -81,10 +82,11 @@ export default function Navigation() {
         <Stack.Screen
           name="NumerologiaEvolutiva"
           component={NumerologiaEvolutiva}
-          options={{
-            headerShown: false,
-          }}
-        />
+         />
+        <Stack.Screen
+          name="NumerologiaTransgeneracional"
+          component={NumerologiaTransgeneracional}
+         />
         <Stack.Screen
           name="FormCrearConsultante"
           component={FormCrearConsultante}

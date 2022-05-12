@@ -1,3 +1,7 @@
+var hijo=0;
+var pareja=0;
+var hermano=0;
+
 export function validarEmail(email) {
   const re =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -21,3 +25,20 @@ export function getFecha() {
   }
   return date;
 }
+
+export function contadorHijos() {
+  hijo++;
+  return hijo;  
+}
+
+export function contadorParejas() {
+  pareja++;
+  return pareja;  
+}
+
+export function contadorHermanos() {
+  hermano++;
+  return hermano;  
+}
+
+

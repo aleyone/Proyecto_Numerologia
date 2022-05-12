@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React, { useState } from "react";
 import { View, StyleSheet, Platform, Text } from 'react-native';
 import { Button } from "react-native-elements";
 import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 
-console.log("He llegado a utils-sendToExport")
+export default function sendToExport() {
+   const [impresora, setImpresora] = useState()
+    console.log("He llegado a utils-sendToExport")
 
-const sendToExport = () => {
+
     const html = `
     <html>
       <head>
@@ -22,13 +24,12 @@ const sendToExport = () => {
       </body>
     </html>
     `;
-    const [selectedPrinter, setSelectedPrinter] = React.useState();
   
     const print = async () => {
       // On iOS/android prints the given html. On web prints the HTML from the current page.
       await Print.printAsync({
         html,
-        printerUrl: selectedPrinter?.url, // iOS only
+        printerUrl: impresora?.url, // iOS only
       });
     }
   
@@ -43,7 +44,7 @@ const sendToExport = () => {
   
     const selectPrinter = async () => {
       const printer = await Print.selectPrinterAsync(); // iOS only
-      setSelectedPrinter(printer);
+      setImpresora(printer);
     }
   
     return (
@@ -63,6 +64,4 @@ const sendToExport = () => {
     );
   }
   
-  const styles = StyleSheet.create({ }); 
-
-  export default sendToExport;
+  const styles = StyleSheet.create({ });

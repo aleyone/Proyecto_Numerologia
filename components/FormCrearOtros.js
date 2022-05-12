@@ -3,25 +3,30 @@ import { Input, Button } from "react-native-elements";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { updateData } from "../firebase-config";
+import { contadorHijos, contadorParejas, contadorHermanos } from "../utils/utils";
 
 export default function FormCrearOtros(props) {
   const defaultValues = () => {
     return {
       name: "",
-      rol:"",
+      rol: "",
       day: 0,
       month: 0,
       year: 0,
     };
   };
 
-  let padre = 0, madre = 0,pareja=0, hermano=0, hijo=0, abuelopaterno=0, abuelomaterno=0, abuelamaterna=0, abuelapaterna=0;
+  let padre = 0,
+    madre = 0,
+    abuelopaterno = 0,
+    abuelomaterno = 0,
+    abuelamaterna = 0,
+    abuelapaterna = 0;
   let errorMessage = "";
- 
 
   const [form, setForm] = useState(defaultValues());
   const [rolName, setRol] = useState();
-      
+
   const onChange = (e, type) => {
     setForm({ ...form, [type]: e.nativeEvent.text });
   };
@@ -31,10 +36,13 @@ export default function FormCrearOtros(props) {
   }*/
 
   const saveData = () => {
-    comprobarRol()
-    props.props.navigation.navigate("DetalleEstudio")
-    console.log("Hemos guardado un rol")
-  }
+    comprobarRol();
+    props.props.navigation.navigate(
+      "DetalleEstudio",
+      props.props.route.params.estudioId
+    );
+    console.log("Hemos guardado un rol");
+  };
 
   const comprobarRol = () => {
     if (rolName == "padre") {
@@ -42,58 +50,91 @@ export default function FormCrearOtros(props) {
         form.rol = "Padre";
         padre++;
         console.log("Padre");
-        updateData("estudio",props.props.route.params.estudioId, form.rol,form )
+        updateData(
+          "estudio",
+          props.props.route.params.estudioId,
+          form.rol,
+          form
+        );
       } else errorMessage = "Ya has puesto un padre";
     } else if (rolName == "madre") {
       if (madre < 1) {
         form.rol = "Madre";
         madre++;
         console.log("Madre");
-        updateData("estudio",props.props.route.params.estudioId, form.rol, form )
+        updateData(
+          "estudio",
+          props.props.route.params.estudioId,
+          form.rol,
+          form
+        );
       } else errorMessage = "Ya has puesto una madre";
-    } else if (rolName == "hermano") {
-      form.rol = "Hermano"+hermano;
-      hermano++;
+    } else if (rolName == "hermano/a") {
+      var hermano = contadorHermanos()      
+      form.rol = "Hermano " + hermano;
+      console.log(form.rol);
       console.log("Herman@");
-      updateData("estudio",props.props.route.params.estudioId, form.rol, form)
-    } else if (rolName == "hijo") {
-      form.rol = "Hijo"+hijo;
-      hijo++;
+      updateData("estudio", props.props.route.params.estudioId, form.rol, form);
+    } else if (rolName == "hijo/a") {
+      var hijo = contadorHijos()      
+      form.rol = "Hijo " + hijo;
       console.log("Hij@");
-      updateData("estudio",props.props.route.params.estudioId, form.rol, form)
-    } else if (rolName == "abuelo") {
+      updateData("estudio", props.props.route.params.estudioId, form.rol, form);
+    } else if (rolName == "abuelopaterno") {
       if (abuelopaterno < 1) {
         form.rol = "Abuelo paterno";
         abuelopaterno++;
         console.log("Abuelo paterno");
-        updateData("estudio",props.props.route.params.estudioId, form.rol, form )
+        updateData(
+          "estudio",
+          props.props.route.params.estudioId,
+          form.rol,
+          form
+        );
       } else errorMessage = "Ya hay un abuelo paterno en la bbdd";
+    } else if (rolName == "abuelomaterno") {
       if (abuelomaterno < 1) {
         form.rol = "Abuelo materno";
         abuelomaterno++;
         console.log("Abuelo materno");
-        updateData("estudio",props.props.route.params.estudioId, form.rol, form )
+        updateData(
+          "estudio",
+          props.props.route.params.estudioId,
+          form.rol,
+          form
+        );
       } else errorMessage = "Ya hay un abuelo materno en la bbdd";
+    } else if (rolName == "abuelapaterna") {
       if (abuelapaterna < 1) {
         form.rol = "Abuela paterna";
         abuelapaterna++;
         console.log("Abuela paterna");
-        updateData("estudio",props.props.route.params.estudioId, form.rol, form )
+        updateData(
+          "estudio",
+          props.props.route.params.estudioId,
+          form.rol,
+          form
+        );
       } else errorMessage = "Ya hay una abuela paterna en la bbdd";
+    } else if (rolName == "abuelamaterna") {
       if (abuelamaterna < 1) {
         form.rol = "Abuela materna";
         abuelamaterna++;
         console.log("Abuela materna");
-        updateData("estudio",props.props.route.params.estudioId, form.rol, form )
+        updateData(
+          "estudio",
+          props.props.route.params.estudioId,
+          form.rol,
+          form
+        );
       } else errorMessage = "Ya hay un abuela materna en la bbdd";
     } else if (rolName == "pareja") {
-      form.rol = "Pareja"+pareja;
-      pareja++;
+      var pareja = contadorParejas()      
+      form.rol = "Pareja " + pareja;
       console.log("Pareja");
-      updateData("estudio",props.props.route.params.estudioId, form.rol, form )
+      updateData("estudio", props.props.route.params.estudioId, form.rol, form);
     }
   };
-
 
   return (
     <View style={styles.container}>

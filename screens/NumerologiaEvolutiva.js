@@ -76,8 +76,7 @@ export default function NumerologiaEvolutiva(props) {
   console.log("Array del puente", puente);
 
   const exportar = () => {
-   
-    sendToExport();
+  sendToExport(); 
   };
 
   const alerta = () => {
@@ -154,7 +153,7 @@ export default function NumerologiaEvolutiva(props) {
       <Button
         title="Exportar"
         onPress={() => {
-          alerta();
+          exportar();
         }}
       />
     </ScrollView>

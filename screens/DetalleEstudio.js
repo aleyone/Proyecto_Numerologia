@@ -1,23 +1,23 @@
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Icon, ListItem, Button } from "react-native-elements";
-import { deleteEstudio, obtenerFamiliar, unEstudio } from "../firebase-config";
-import { getUsuario } from "./Login";
+import { deleteEstudio, obtenerFamiliar, unEstudio, deleteFamiliar } from "../firebase-config";
 
-let estudioId=""
+let estudioId = "";
 
 export default function DetalleEstudio(props) {
   const [estudio, setEstudio] = useState({});
   const [datos, setDatos] = useState([]);
   const array = [];
   const [familiares, setFamiliares] = useState([]);
-
+  const [id, setId] = useState()
+  let familiaresVisibles = true;
 
   useEffect(() => {
     (async () => {
-      estudioId=props.route.params.estudioId;
-      console.log("Esto es el id en el Detalle del Estudio")
-      console.log(estudioId)
+      estudioId = props.route.params.estudioId;
+      console.log("Esto es el id en el Detalle del Estudio");
+      console.log(estudioId);
       const result = await unEstudio("estudio", props.route.params.estudioId);
       array.push(
         result.Datos_personales.Nombre_consultante.Nombre,
@@ -29,27 +29,60 @@ export default function DetalleEstudio(props) {
       );
       setEstudio(result);
       setDatos(array);
+      (async () => {
+        const result = await obtenerFamiliar(
+          "estudio",
+          props.route.params.estudioId
+        );
+        console.log(
+          "Esto es el futuro array de familiares antes de setear ",
+          result
+        );
+        if(result!=null){
+        setFamiliares(result);
+        familiaresVisibles==true;
+        }
+      })();
     })();
-   (async () => {
-      const result = await obtenerFamiliar ("estudio", props.route.params.estudioId);
-      console.log("Esto es el futuro array de familiares antes de setear ", result)
+    /*(async () => {
+      const result = await obtenerFamiliar(
+        "estudio",
+        props.route.params.estudioId
+      );
+      console.log(
+        "Esto es el futuro array de familiares antes de setear ",
+        result
+      );
+      if(result!=null){
       setFamiliares(result);
-    })();
-    console.log("FAMILIAREEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSS==============", familiares)
-
+      familiaresVisibles==true;
+      }
+    })();*/
   }, []);
-
-
-  const eliminar = async () => {
-    await deleteEstudio("estudio", props.route.params.estudioId);
-    props.navigation.navigate("DrawNavigation");
-  };
 
   const confirmarDelete = () => {
     Alert.alert("Eliminar usuario", "¿Estás seguro?", [
       { text: "Sí", onPress: () => eliminar() },
       { text: "No", onPress: () => console.log("Cancelar borrado") },
     ]);
+  };
+
+  const eliminar = async () => {
+    await deleteEstudio("estudio", props.route.params.estudioId);
+    props.navigation.navigate("DrawNavigation");
+  };
+
+  const confirmarDeleteFamiliar = (rol) => {
+    Alert.alert("Eliminar familiar", "¿Estás seguro?", [
+      { text: "Sí", onPress: () => eliminarFamiliar(rol) },
+      { text: "No", onPress: () => console.log("Cancelar borrado") },
+    ]);
+  };
+
+  const eliminarFamiliar = async (rol) => {
+    console.log("Entramos en eliminarFamiliar")
+    await deleteFamiliar("estudio", props.route.params.estudioId, rol);
+    props.navigation.navigate("DrawNavigation");
   };
 
   return (
@@ -80,60 +113,86 @@ export default function DetalleEstudio(props) {
               <Text>Eliminar</Text>
             </View>
           </View>
-          </View>
-          <View style={styles.apartado}>
+        </View>
+        <View style={styles.apartado}>
           <View style={styles.datos}>
             <Text style={styles.text}>Datos familiares</Text>
             <Button
-          title="Añadir familiar"
-          buttonStyle={{
-            width: "60%",
-            marginLeft: 15,
-            backgroundColor: "#191B4D",
-          }}
-          onPress={() => {
-            props.navigation.navigate("AñadirFamiliar", {
-              estudioId: estudioId,
-            });
-          }}
-        />
+              title="Añadir familiar"
+              buttonStyle={{
+                width: "60%",
+                marginLeft: 15,
+                backgroundColor: "#191B4D",
+              }}
+              onPress={() => {
+                props.navigation.navigate("AñadirFamiliar", {
+                  estudioId: estudioId,
+                });
+              }}
+            />
           </View>
-           
-          </View>
+        </View>
+        <View style={styles.apartado}>
           <ScrollView>
-         <View style={styles.contenedorEstudios}>
-     {familiares.map((familiar, i) => {
-          return (
-            <ListItem
-              key={i}
-              bottomDivider
-            >
-              <ListItem.Chevron />
-              <ListItem.Content>
-                <ListItem.Title>
-                  Rol: {familiar.rol}
-                </ListItem.Title>
-                <ListItem.Subtitle>
-                  {familiar.day}/
-                  {familiar.month}/
-                  {familiar.year}
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-          );
-        })}
-      </View>
-    </ScrollView>
-    <View>
-      <Text>
-        Aquí van los botones para los estudios
-      </Text>
-      <Button title="Evolutiva" onPress={() => {
+            <View style={styles.contenedorEstudios}>
+              {familiaresVisibles && familiares.map((familiar, i) => {
+                return (
+                  <View style={styles.subcontain} key={i}>
+                    <View style={styles.list}>
+                      <ListItem bottomDivider>
+                        <ListItem.Chevron />
+                        <ListItem.Content>
+                          <ListItem.Title>Rol: {familiar.rol}</ListItem.Title>
+                          <ListItem.Subtitle>
+                            {familiar.day}/{familiar.month}/{familiar.year}
+                          </ListItem.Subtitle>
+                        </ListItem.Content>
+                      </ListItem>
+                    </View>
+                    <View style={styles.options}>
+                      <View style={styles.options2}>
+                        <Icon
+                          name="pencil"
+                          type="material-community"
+                          color="#517fa4"
+                        />
+                        <Text>Editar</Text>
+                      </View>
+                      <View style={styles.options2}>
+                        <Icon
+                          name="delete-off-outline"
+                          type="material-community"
+                          color="#517fa4"
+                          onPress={() => confirmarDeleteFamiliar(familiar.rol)}
+                        />
+                        <Text>Eliminar</Text>
+                      </View>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
+          </ScrollView>
+          <View>
+            <Text style={{marginTop:10}}>Aquí van los botones para los estudios</Text>
+            <Button
+              title="Evolutiva"
+              onPress={() => {
                 props.navigation.navigate("NumerologiaEvolutiva", {
                   datos: estudio,
                 });
-              }} />
-    </View>
+              }}
+            />
+            <Button
+              title="Transgeneracional"
+              onPress={() => {
+                props.navigation.navigate("NumerologiaTransgeneracional", {
+                  datos: estudio,  estudioId:  props.route.params.estudioId
+                });
+              }}
+            />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -144,6 +203,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 35,
     paddingTop: 15,
+    width: '98%'
   },
   text: {
     fontSize: 16,
@@ -167,8 +227,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "20%",
   },
+  list: {
+    width: "63%",
+  },
   options2: {
-    marginHorizontal: 10,
+    marginHorizontal: 13,
   },
   texto: {
     fontSize: 16,

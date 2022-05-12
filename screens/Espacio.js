@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React from "react";
 import { useState, useEffect } from "react";
-import { Icon, ListItem, Button } from "react-native-elements";
+import { ListItem, Button } from "react-native-elements";
 
 import { cerrarSesion, getUsuario } from "./Login";
 import { obtenerEstudios } from "../firebase-config";

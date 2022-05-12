@@ -9,6 +9,7 @@ import { añadirEstudio } from "../firebase-config";
 import { getUsuario } from "../screens/Login";
 import { getFecha } from "../utils/utils";
 import { size } from "lodash";
+import transgeneracional from "../utils/calcTransg";
 
 let letters = [];
 
@@ -142,8 +143,11 @@ export default function FormCrearConsultante(props) {
     const usuario = getUsuario();
     const fechaActual = getFecha();
     const response = mapeo(letters, iniciales);
+    const numerologia = transgeneracional(form.day, form.month, form.year)
     console.log("Hacemos un console de las letras por un return");
     console.log(response);
+    console.log("Prueba de transgeneracional desde crear consultante")
+    console.log(numerologia)
 
     const data = {
       Autor: usuario,

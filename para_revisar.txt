@@ -1,4 +1,4 @@
 1- Cuando nos deslogamos se queda el registro de los datos logados en primera 
 instancia.
 
-
+2- revisar cuando se añade familiar no se refresca la vista
