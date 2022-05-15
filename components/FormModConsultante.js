@@ -1,37 +1,47 @@
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import { Input, Button } from "react-native-elements";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import mapeo from "../utils/probando";
 
-import { añadirEstudio } from "../firebase-config";
+import { getConsultanteToUpdate, updateData } from "../firebase-config";
 import { getUsuario } from "../screens/Login";
 import { getFecha } from "../utils/utils";
-import { size } from "lodash";
 import transgeneracional from "../utils/calcTransg";
 
 let letters = [];
+let estudioId ="";
 
-export default function FormCrearConsultante(props) {
-  const defaultValues = () => {
-    return {
-      name: "",
-      lastName1: "",
-      lastName2: "",
-      lastName3: "",
-      lastName4: "",
-      day: 0,
-      month: 0,
-      year: 0,
-    };
-  };
 
-  const [form, setForm] = useState(defaultValues());
+export default function FormModConsultante(props) {
+  const [form, setForm] = useState();
   const [errorNombre, setErrorNombre] = useState("");
   const [errorDia, setErrorDia] = useState("");
   const [errorMes, setErrorMes] = useState("");
   const [errorAnyo, setErrorAnyo] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const resultado = await getConsultanteToUpdate("estudio", props.route.params.estudioId, "consultante", "ninguno");
+      
+      console.log("A ver cómo entra el resultado: ",resultado)
+      console.log(resultado.name)
+      
+      setForm(resultado);
+      setLoading(false);
+      })();
+      
+  }, []);
+
+  if(loading){
+    return(
+      <View>
+        <ActivityIndicator size="large" color="black" />
+      </View>
+    )
+  }
 
   const validarFormulario = () => {
     if (!validarDatos()) {
@@ -41,13 +51,8 @@ export default function FormCrearConsultante(props) {
   };
 
   const onChange = (e, type) => {
+    console.log("Cambios en onChange:", e, type)
     setForm({ ...form, [type]: e.nativeEvent.text });
-    console.log(
-      "formulario después del OnChange: =================" +
-        form.year +
-        " - " +
-        form.name
-    );
   };
 
   const validarDatos = () => {
@@ -143,17 +148,14 @@ export default function FormCrearConsultante(props) {
     const usuario = getUsuario();
     const fechaActual = getFecha();
     const response = mapeo(letters, iniciales);
-    const numerologia = transgeneracional(form.day, form.month, form.year)
+    const numerologia = transgeneracional(form.day, form.month, form.year);
     console.log("Hacemos un console de las letras por un return");
     console.log(response);
-    console.log("Prueba de transgeneracional desde crear consultante")
-    console.log(numerologia)
+    console.log("Prueba de transgeneracional desde crear consultante");
+    console.log(numerologia);
 
     const data = {
-      Autor: usuario,
-      Activo: true,
-      Fecha: fechaActual,
-      Datos_personales: {
+      //Datos_personales: {
         Nombre_consultante: {
           Nombre: form.name,
           Apellido_1: form.lastName1,
@@ -166,48 +168,54 @@ export default function FormCrearConsultante(props) {
           Mes: form.month,
           Anyo: form.year,
         },
-      },
-      Datos_familiares: {},
+    //  },
+
       Numerologia_evolutiva: response,
     };
 
-    console.log("Vamos a grabar en BBDD");
-    añadirEstudio("estudio", data);
-    props.navegacion.navigation.navigate("Espacio", {form: form});
+    console.log("Vamos a MODIFICAR en BBDD");
+    updateData(
+      "estudio",
+      props.route.params.estudioId,
+      "consultante",
+      "",
+      data
+    );
+    props.navigation.navigate("Espacio");
   };
   return (
     <ScrollView style={styles.container}>
       <Input
         label="Nombre"
-        placeholder="Introduce tu nombre completo"
+        value={form.name}
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "name")}
         errorMessage={errorNombre}
       />
       <Input
         label="Apellido abuelo paterno"
-        placeholder="Apellido 1"
+        value={form.lastName1}
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "lastName1")}
         errorMessage={errorNombre}
       />
       <Input
         label="Apellido abuela paterno"
-        placeholder="Apellido 2"
+        value={form.lastName2}
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "lastName2")}
         errorMessage={errorNombre}
       />
       <Input
         label="Apellido abuelo materno"
-        placeholder="Apellido 3"
+        value={form.lastName3}
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "lastName3")}
         errorMessage={errorNombre}
       />
       <Input
         label="Apellido abuela materna"
-        placeholder="Apellido 4"
+        value={form.lastName4}
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "lastName4")}
         errorMessage={errorNombre}
@@ -216,7 +224,7 @@ export default function FormCrearConsultante(props) {
         <View style={{ width: "30%" }}>
           <Input
             label="Fecha"
-            placeholder="Día"
+            value={form.day}
             inputStyle={styles.inputDate}
             onChange={(e) => onChange(e, "day")}
             errorMessage={errorDia}
@@ -225,7 +233,7 @@ export default function FormCrearConsultante(props) {
         <View style={{ width: "30%" }}>
           <Input
             label="de"
-            placeholder="Mes"
+            value={form.month}
             inputStyle={styles.inputDate}
             onChange={(e) => onChange(e, "month")}
             errorMessage={errorMes}
@@ -234,7 +242,7 @@ export default function FormCrearConsultante(props) {
         <View style={{ width: "35%" }}>
           <Input
             label="nacimiento"
-            placeholder="Año"
+            value={form.year}
             inputStyle={styles.inputDate}
             onChange={(e) => onChange(e, "year")}
             errorMessage={errorAnyo}
@@ -248,7 +256,7 @@ export default function FormCrearConsultante(props) {
           validarFormulario();
         }}
       />
-    </ScrollView>
+      </ScrollView>
   );
 }
 

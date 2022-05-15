@@ -17,6 +17,8 @@ import FormCrearConsultante from "./FormCrearConsultante";
 import AñadirFamiliar from "../screens/AñadirFamiliar";
 import NumerologiaEvolutiva from "../screens/NumerologiaEvolutiva";
 import NumerologiaTransgeneracional from "../screens/NumerologiaTransgeneracional";
+import FormModConsultante from "./FormModConsultante";
+import FormModOtros from "./FormModOtros";
 
 
 export default function Navigation() {
@@ -82,16 +84,37 @@ export default function Navigation() {
         <Stack.Screen
           name="NumerologiaEvolutiva"
           component={NumerologiaEvolutiva}
+          options={{
+            title: "Numerología Evolutiva",
+          }}
          />
         <Stack.Screen
           name="NumerologiaTransgeneracional"
           component={NumerologiaTransgeneracional}
+          options={{
+            title: "Pináculos",
+          }}
          />
         <Stack.Screen
           name="FormCrearConsultante"
           component={FormCrearConsultante}
           options={{
-            headerShown: false,
+            title: "Introduce datos del consultante",
+          }}
+        />
+        <Stack.Screen
+          name="FormModConsultante"
+          component={FormModConsultante}
+          options={{
+            title: "Modifica datos del consultante",
+          }}
+
+        />
+        <Stack.Screen
+          name="FormModOtros"
+          component={FormModOtros}
+          options={{
+            title: "Modifica datos del familiar",
           }}
         />
         <Stack.Screen

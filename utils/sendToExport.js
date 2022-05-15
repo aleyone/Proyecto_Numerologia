@@ -5,7 +5,7 @@ import * as Print from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 
 export default function sendToExport() {
-   const [impresora, setImpresora] = useState()
+   //const [impresora, setImpresora] = useState()
     console.log("He llegado a utils-sendToExport")
 
 
@@ -42,24 +42,16 @@ export default function sendToExport() {
       await shareAsync(uri, { UTI: '.pdf', mimeType: 'application/pdf' });
     }
   
-    const selectPrinter = async () => {
+    /*const selectPrinter = async () => {
       const printer = await Print.selectPrinterAsync(); // iOS only
       setImpresora(printer);
-    }
+    }*/
   
     return (
-      <View style={styles.container}>
+      <View>
         <Button title='Print' onPress={print}  />
-        <View style={styles.spacer} />
-        <Button title='Print to PDF file' onPress={printToFile}/>
-        {Platform.OS === 'ios' &&
-          <>
-            <View style={styles.spacer} />
-            <Button title='Select printer' onPress={selectPrinter}/>
-            <View style={styles.spacer} />
-            {selectedPrinter ? <Text style={styles.printer}>{`Selected printer: ${selectedPrinter.name}`}</Text> : undefined}
-          </>
-        }
+        
+        <Button title='Print to PDF file' onPress={printToFile()}/>
       </View>
     );
   }

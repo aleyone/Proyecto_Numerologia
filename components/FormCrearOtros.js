@@ -53,6 +53,7 @@ export default function FormCrearOtros(props) {
         updateData(
           "estudio",
           props.props.route.params.estudioId,
+          "familiar",
           form.rol,
           form
         );
@@ -65,6 +66,7 @@ export default function FormCrearOtros(props) {
         updateData(
           "estudio",
           props.props.route.params.estudioId,
+          "familiar",
           form.rol,
           form
         );
@@ -74,12 +76,12 @@ export default function FormCrearOtros(props) {
       form.rol = "Hermano " + hermano;
       console.log(form.rol);
       console.log("Herman@");
-      updateData("estudio", props.props.route.params.estudioId, form.rol, form);
+      updateData("estudio", props.props.route.params.estudioId, "familiar",form.rol, form);
     } else if (rolName == "hijo/a") {
       var hijo = contadorHijos()      
       form.rol = "Hijo " + hijo;
       console.log("Hij@");
-      updateData("estudio", props.props.route.params.estudioId, form.rol, form);
+      updateData("estudio", props.props.route.params.estudioId, "familiar",form.rol, form);
     } else if (rolName == "abuelopaterno") {
       if (abuelopaterno < 1) {
         form.rol = "Abuelo paterno";
@@ -87,7 +89,7 @@ export default function FormCrearOtros(props) {
         console.log("Abuelo paterno");
         updateData(
           "estudio",
-          props.props.route.params.estudioId,
+          props.props.route.params.estudioId, "familiar",
           form.rol,
           form
         );
@@ -99,7 +101,7 @@ export default function FormCrearOtros(props) {
         console.log("Abuelo materno");
         updateData(
           "estudio",
-          props.props.route.params.estudioId,
+          props.props.route.params.estudioId, "familiar",
           form.rol,
           form
         );
@@ -111,7 +113,7 @@ export default function FormCrearOtros(props) {
         console.log("Abuela paterna");
         updateData(
           "estudio",
-          props.props.route.params.estudioId,
+          props.props.route.params.estudioId, "familiar",
           form.rol,
           form
         );
@@ -123,7 +125,7 @@ export default function FormCrearOtros(props) {
         console.log("Abuela materna");
         updateData(
           "estudio",
-          props.props.route.params.estudioId,
+          props.props.route.params.estudioId, "familiar",
           form.rol,
           form
         );
@@ -132,7 +134,7 @@ export default function FormCrearOtros(props) {
       var pareja = contadorParejas()      
       form.rol = "Pareja " + pareja;
       console.log("Pareja");
-      updateData("estudio", props.props.route.params.estudioId, form.rol, form);
+      updateData("estudio", props.props.route.params.estudioId, "familiar",form.rol, form);
     }
   };
 

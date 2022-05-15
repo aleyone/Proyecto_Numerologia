@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { obtenerFechas } from "../firebase-config";
+import { obtenerFechas, updateData } from "../firebase-config";
 import transgeneracional from "../utils/calcTransg";
 import { Button } from "react-native-elements";
 
@@ -23,6 +23,14 @@ export default function NumerologiaTransgeneracional(props) {
   console.log("DATA: ", data);
   console.log("Datos: ", datos);
   console.log("Fechas: ", fechas);
+
+  updateData(
+    "estudio",
+    props.route.params.estudioId,
+    "transgeneracional",
+    "",
+    data
+  );
 
   const exportar = () => {
     sendToExport();

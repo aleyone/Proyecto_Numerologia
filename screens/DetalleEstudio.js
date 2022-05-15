@@ -1,21 +1,28 @@
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Icon, ListItem, Button } from "react-native-elements";
-import { deleteEstudio, obtenerFamiliar, unEstudio, deleteFamiliar } from "../firebase-config";
+import {
+  deleteEstudio,
+  obtenerFamiliar,
+  unEstudio,
+  deleteFamiliar,
+} from "../firebase-config";
 
 let estudioId = "";
+let form = [];
 
 export default function DetalleEstudio(props) {
   const [estudio, setEstudio] = useState({});
   const [datos, setDatos] = useState([]);
   const array = [];
   const [familiares, setFamiliares] = useState([]);
-  const [id, setId] = useState()
+  const [id, setId] = useState();
   let familiaresVisibles = true;
 
   useEffect(() => {
     (async () => {
       estudioId = props.route.params.estudioId;
+      form = props.route.params.form;
       console.log("Esto es el id en el Detalle del Estudio");
       console.log(estudioId);
       const result = await unEstudio("estudio", props.route.params.estudioId);
@@ -38,9 +45,9 @@ export default function DetalleEstudio(props) {
           "Esto es el futuro array de familiares antes de setear ",
           result
         );
-        if(result!=null){
-        setFamiliares(result);
-        familiaresVisibles==true;
+        if (result != null) {
+          setFamiliares(result);
+          familiaresVisibles == true;
         }
       })();
     })();
@@ -68,7 +75,7 @@ export default function DetalleEstudio(props) {
   };
 
   const eliminar = async () => {
-    await deleteEstudio("estudio", props.route.params.estudioId);
+    await deleteEstudio("estudio", estudioId);
     props.navigation.navigate("DrawNavigation");
   };
 
@@ -80,9 +87,17 @@ export default function DetalleEstudio(props) {
   };
 
   const eliminarFamiliar = async (rol) => {
-    console.log("Entramos en eliminarFamiliar")
-    await deleteFamiliar("estudio", props.route.params.estudioId, rol);
+    console.log("Entramos en eliminarFamiliar");
+    await deleteFamiliar("estudio", estudioId, rol);
     props.navigation.navigate("DrawNavigation");
+  };
+
+  const updateConsultante = () => {
+    props.navigation.navigate("FormModConsultante", { estudioId: estudioId, form: form });
+  };
+
+  const updateFamiliar = (rol) => {
+    props.navigation.navigate("FormModOtros", { estudioId: estudioId, rol: rol });
   };
 
   return (
@@ -100,7 +115,12 @@ export default function DetalleEstudio(props) {
           </View>
           <View style={styles.options}>
             <View style={styles.options2}>
-              <Icon name="pencil" type="material-community" color="#517fa4" />
+              <Icon
+                name="pencil"
+                type="material-community"
+                color="#517fa4"
+                onPress={() => updateConsultante()}
+              />
               <Text>Editar</Text>
             </View>
             <View style={styles.options2}>
@@ -135,46 +155,54 @@ export default function DetalleEstudio(props) {
         <View style={styles.apartado}>
           <ScrollView>
             <View style={styles.contenedorEstudios}>
-              {familiaresVisibles && familiares.map((familiar, i) => {
-                return (
-                  <View style={styles.subcontain} key={i}>
-                    <View style={styles.list}>
-                      <ListItem bottomDivider>
-                        <ListItem.Chevron />
-                        <ListItem.Content>
-                          <ListItem.Title>Rol: {familiar.rol}</ListItem.Title>
-                          <ListItem.Subtitle>
-                            {familiar.day}/{familiar.month}/{familiar.year}
-                          </ListItem.Subtitle>
-                        </ListItem.Content>
-                      </ListItem>
-                    </View>
-                    <View style={styles.options}>
-                      <View style={styles.options2}>
-                        <Icon
-                          name="pencil"
-                          type="material-community"
-                          color="#517fa4"
-                        />
-                        <Text>Editar</Text>
+              {familiaresVisibles &&
+                familiares.map((familiar, i) => {
+                  return (
+                    <View style={styles.subcontain} key={i}>
+                      <View style={styles.list}>
+                        <ListItem bottomDivider>
+                          <ListItem.Chevron />
+                          <ListItem.Content>
+                            <ListItem.Title>Rol: {familiar.rol}</ListItem.Title>
+                            <ListItem.Subtitle>
+                              {familiar.day}/{familiar.month}/{familiar.year}
+                            </ListItem.Subtitle>
+                          </ListItem.Content>
+                        </ListItem>
                       </View>
-                      <View style={styles.options2}>
-                        <Icon
-                          name="delete-off-outline"
-                          type="material-community"
-                          color="#517fa4"
-                          onPress={() => confirmarDeleteFamiliar(familiar.rol)}
-                        />
-                        <Text>Eliminar</Text>
+                      <View style={styles.options}>
+                        <View style={styles.options2}>
+                          <Icon
+                            name="pencil"
+                            type="material-community"
+                            color="#517fa4"
+                            onPress={() =>
+                              updateFamiliar(familiar.rol)
+                            }
+                          />
+                          <Text>Editar</Text>
+                        </View>
+                        <View style={styles.options2}>
+                          <Icon
+                            name="delete-off-outline"
+                            type="material-community"
+                            color="#517fa4"
+                            onPress={() =>
+                              confirmarDeleteFamiliar(familiar.rol)
+                            }
+                          />
+                          <Text>Eliminar</Text>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                );
-              })}
+                  );
+                })}
             </View>
           </ScrollView>
           <View>
-            <Text style={{marginTop:10}}>Aquí van los botones para los estudios</Text>
+            <Text style={{ marginTop: 10 }}>
+              Aquí van los botones para los estudios
+            </Text>
             <Button
               title="Evolutiva"
               onPress={() => {
@@ -187,7 +215,8 @@ export default function DetalleEstudio(props) {
               title="Transgeneracional"
               onPress={() => {
                 props.navigation.navigate("NumerologiaTransgeneracional", {
-                  datos: estudio,  estudioId:  props.route.params.estudioId
+                  datos: estudio,
+                  estudioId: props.route.params.estudioId,
                 });
               }}
             />
@@ -203,7 +232,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 35,
     paddingTop: 15,
-    width: '98%'
+    width: "98%",
   },
   text: {
     fontSize: 16,
