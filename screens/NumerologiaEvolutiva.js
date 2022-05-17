@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-native-elements";
-import sendToExport from "../utils/sendToExport";
+import {sendToExport} from "../utils/sendToExport";
 
 export default function NumerologiaEvolutiva(props) {
   const [estudio, setEstudio] = useState({});
@@ -9,7 +9,7 @@ export default function NumerologiaEvolutiva(props) {
   const [puente, setPuente] = useState([]);
   const [evolucion, setEvolucion] = useState([]);
   const [inconsciente, setInconsciente] = useState([]);
-
+  const exportPDF=[];
   useEffect(() => {
     (() => {
       setEstudio(props.route.params.datos);
@@ -33,6 +33,7 @@ export default function NumerologiaEvolutiva(props) {
       props.route.params.datos.Numerologia_evolutiva.Habitantes.siete,
       props.route.params.datos.Numerologia_evolutiva.Habitantes.ocho,
       props.route.params.datos.Numerologia_evolutiva.Habitantes.nueve
+      
     );
     arrayPuente.push(
       props.route.params.datos.Numerologia_evolutiva.Puente.uno,
@@ -76,8 +77,10 @@ export default function NumerologiaEvolutiva(props) {
   console.log("Array del puente", puente);
 
   const exportar = () => {
-  sendToExport(); 
-  };
+    exportPDF.push(base, puente, evolucion, inconsciente)
+    console.log("Desde numerologia evolutiva voy a exportar, ", exportPDF)
+    sendToExport(exportPDF);
+  }
 
   const alerta = () => {
     Alert.alert("Aquí iría la exportación de datos.");
