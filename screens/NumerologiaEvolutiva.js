@@ -79,7 +79,7 @@ export default function NumerologiaEvolutiva(props) {
   const exportar = () => {
     exportPDF.push(base, puente, evolucion, inconsciente)
     console.log("Desde numerologia evolutiva voy a exportar, ", exportPDF)
-    sendToExport(exportPDF);
+    sendToExport("evolutiva", exportPDF);
   }
 
   const alerta = () => {

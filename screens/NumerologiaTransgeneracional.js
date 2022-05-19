@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import { obtenerFechas, updateData } from "../firebase-config";
 import transgeneracional from "../utils/calcTransg";
 import { Button } from "react-native-elements";
+import {sendToExport} from "../utils/sendToExport";
 
 export default function NumerologiaTransgeneracional(props) {
   const [fechas, setFechas] = useState({});
   const [datos, setDatos] = useState({});
   const [id, setId] = useState();
+  const exportPDF =[];
 
   useEffect(() => {
     (async () => {
@@ -33,8 +35,9 @@ export default function NumerologiaTransgeneracional(props) {
   );
 
   const exportar = () => {
-    sendToExport();
-  };
+    console.log("Desde numerologia familiar voy a exportar, ", data)
+    sendToExport("familiar", data);
+  }
 
   const volver = () => {
     props.navigation.navigate("DetalleEstudio", props.route.params.estudioId);
@@ -84,7 +87,7 @@ export default function NumerologiaTransgeneracional(props) {
       <Button
         title="Exportar"
         onPress={() => {
-          alerta();
+          exportar();
         }}
       />
       <Button

@@ -5,33 +5,19 @@ import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
 //import { basemap } from "../screens/NumerologiaEvolutiva";
 
-export const sendToExport = (basemap) =>{
+export const sendToExport = (tipo, basemap) => {
   //const base = basemap;
   //const [impresora, setImpresora] = useState()
   console.log("He llegado a utils-sendToExport y esta es la base: ", basemap);
+  console.log("Sigo aqui y esto es base0 ", basemap[0]);
   let html = `<html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   </head>
   <body>
-    <div id="cuerpo">
-    <style>
-.demo {
-border:1px sólido #C0C0C0;
-border-collapse:colapso;
-padding:5px;
-}
-.demo th {
-border:1px sólido #C0C0C0;
-padding:5px;
-background:#F0F0F0;
-}
-.demo td {
-border:1px sólido #C0C0C0;
-padding:5px;
-}
-</style>
-<table class="demo">
+    <div id="cuerpo">`;
+  if (tipo == "evolutiva") {
+    html += `<table align="center">
 <caption>Numerología Evolutiva</caption>
 <thead>
 <tr>
@@ -50,83 +36,118 @@ padding:5px;
 <tbody>
 <tr>
 <td>Base<br></td>`;
-  if (basemap.length != 0) {
-    console.log("Estoy en el if base")
-    basemap[0].map((registro) => {
-      html += `<td>` + registro + `</td>`;
-    });
-  }
+    if (basemap.length != 0) {
+      console.log("Estoy en el if base");
+      basemap[0].map((registro) => {
+        html += `<td>` + registro + `</td>`;
+      });
+    }
 
-  html+= `</tr><tr>
+    html += `</tr><tr>
   <td>Puente<br></td>`;
 
-  if (basemap.length != 0) {
-    console.log("Estoy en el if puente")
-    basemap[1].map((registro) => {
-      html += `<td>` + registro + `</td>`;
-    });
-  }
+    if (basemap.length != 0) {
+      console.log("Estoy en el if puente");
+      basemap[1].map((registro) => {
+        html += `<td>` + registro + `</td>`;
+      });
+    }
 
-  html+= `</tr><tr>
+    html += `</tr><tr>
   <td>Evolución<br></td>`;
 
-  if (basemap.length != 0) {
-    console.log("Estoy en el if evolución")
-    basemap[2].map((registro) => {
-      html += `<td>` + registro + `</td>`;
-    });
-  }
+    if (basemap.length != 0) {
+      console.log("Estoy en el if evolución");
+      basemap[2].map((registro) => {
+        html += `<td>` + registro + `</td>`;
+      });
+    }
 
-  html+= `</tr><tr>
+    html += `</tr><tr>
   <td>Inconsciente<br></td>`;
 
-  if (basemap.length != 0) {
-    console.log("Estoy en el if inconsciente")
-    basemap[3].map((registro) => {
-      html += `<td>` + registro + `</td>`;
-    });
-  }
+    if (basemap.length != 0) {
+      console.log("Estoy en el if inconsciente");
+      basemap[3].map((registro) => {
+        html += `<td>` + registro + `</td>`;
+      });
+    }
 
-  html += `</tr>
+    html += `</tr>
   
   </tbody>
   </table>`;
-  /*<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td>Evolución<br></td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-<tr>
-<td>Inconsciente</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>*/
+  } else if (tipo == "familiar") {
+    basemap.map((registro, index) => {
+      console.log("hola, soy familiar en export", basemap[index]);
+
+      html +=
+        `<br><p align="center" border="1" bordercolor="red">` +
+        registro.Rol +
+        `: ` +
+        registro.Nombre +
+        `</p><br><table align="center">
+      <tbody>
+      <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Maestro +
+        `</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      </tr>
+      <tr>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Ancestro1 +
+        `</td>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Ancestro2 +
+        `</td>
+      <td>&nbsp;</td>
+      </tr>
+      <tr>
+      <td>` +
+        registro.Mes +
+        `</td>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Dia +
+        `</td>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Anyo +
+        `</td>
+      </tr>
+      <tr>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Emocional1 +
+        `</td>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Emocional2 +
+        `</td>
+      <td>&nbsp;</td>
+      </tr>
+      <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>` +
+        registro.Anclaje +
+        `</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      </tr>
+      </tbody>
+      </table>
+      `;
+    });
+  } else if (tipo == "ciclo") {
+    console.log("hola, soy ciclos en export");
+  }
 
   html += `     
   </body>
@@ -162,6 +183,6 @@ padding:5px;
       <Button title="Print to PDF file" onPress={printToFile()} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({});
