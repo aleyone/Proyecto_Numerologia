@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-native-elements";
 import {sendToExport} from "../utils/sendToExport";
+import Boton from "../components/boton";
 
 export default function NumerologiaEvolutiva(props) {
   const [estudio, setEstudio] = useState({});
@@ -153,8 +154,10 @@ export default function NumerologiaEvolutiva(props) {
           );
         })}
       </View>
-      <Button
+     {/* <Boton titulo="Exportar" funcion={exportar()}/>*/}
+     <Button
         title="Exportar"
+        buttonStyle={styles.boton}
         onPress={() => {
           exportar();
         }}
@@ -196,5 +199,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingHorizontal: 12,
     paddingVertical: 5,
+  },
+  boton: {
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 15,
+    borderRadius: 10,
+    backgroundColor: "#191B4D",
   },
 });

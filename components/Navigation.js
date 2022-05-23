@@ -54,19 +54,19 @@ export default function Navigation() {
           }}
         />
         <Stack.Screen
-          name="DetalleEstudio"
-          component={DetalleEstudio}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
           name="Espacio"
           component={Espacio}
           options={{
-           title: "Tus estudios",
+           title: "Estudios activos",
           }}
         />
+        <Stack.Screen
+          name="DetalleEstudio"
+          component={DetalleEstudio}
+          options={{
+            title: "Detalle del estudio",          }}
+        />
+        
         <Stack.Screen
           name="CrearEstudio"
           component={CrearEstudio}

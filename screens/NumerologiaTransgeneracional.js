@@ -4,6 +4,7 @@ import { obtenerFechas, updateData } from "../firebase-config";
 import transgeneracional from "../utils/calcTransg";
 import { Button } from "react-native-elements";
 import {sendToExport} from "../utils/sendToExport";
+import Boton from "../components/boton";
 
 export default function NumerologiaTransgeneracional(props) {
   const [fechas, setFechas] = useState({});
@@ -84,14 +85,19 @@ export default function NumerologiaTransgeneracional(props) {
           );
         })}
       </Text>
-      <Button
+      {/*<Boton titulo="Exportar" funcion={exportar()}/>
+      <Boton titulo="Volver" funcion={volver()}/>*/}
+
+   <Button
         title="Exportar"
+        buttonStyle={styles.boton}
         onPress={() => {
           exportar();
         }}
       />
       <Button
         title="Volver"
+        buttonStyle={styles.boton}
         onPress={() => {
           volver();
         }}
@@ -143,5 +149,12 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 10,
     paddingHorizontal: 3,
+  },
+  boton: {
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 15,
+    borderRadius: 10,
+    backgroundColor: "#191B4D",
   },
 });

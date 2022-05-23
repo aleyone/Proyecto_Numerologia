@@ -26,15 +26,91 @@ export default function FormCrearOtros(props) {
 
   const [form, setForm] = useState(defaultValues());
   const [rolName, setRol] = useState();
+  const [errorNombre, setErrorNombre] = useState("");
+  const [errorDia, setErrorDia] = useState("");
+  const [errorMes, setErrorMes] = useState("");
+  const [errorAnyo, setErrorAnyo] = useState("");
 
   const onChange = (e, type) => {
     setForm({ ...form, [type]: e.nativeEvent.text });
   };
 
-  /*const comprobarRol = () => {
-    form.rol = rolName;
-  }*/
+  const validarFormulario = () => {
+    if (!validarDatos()) {
+      return;
+    }
+    saveData();
+  };
 
+  const validarDatos = () => {
+    setErrorDia("");
+    setErrorMes("");
+    setErrorAnyo("");
+    let isValid = true;
+
+    let dia = parseInt(form.day);
+    let mes = parseInt(form.month);
+    let anyo = parseInt(form.year);
+
+    if (
+      form.name == null
+    ) {
+      setErrorNombre("No puede ser vacío");
+      isValid = false;
+    }
+
+    if (!Number.isInteger(dia)) {
+      setErrorDia("Revisa día");
+      isValid = false;
+    }
+
+    if (!Number.isInteger(mes)) {
+      setErrorMes("Revisa mes.");
+      isValid = false;
+    }
+
+    if (!Number.isInteger(anyo)) {
+      setErrorAnyo("Revisa el año.");
+      isValid = false;
+    }
+    // size(anyo) > 4 ||
+    /*if (size(anyo) < 1) {
+      setErrorAnyo("Revisa año.-");
+      isValid = false;
+    }*/
+
+    if (dia > 31 || dia < 1) {
+      setErrorDia("Revisa día.");
+
+      isValid = false;
+    }
+
+    if (mes > 12 || mes < 1) {
+      setErrorMes("Revisa mes.");
+
+      isValid = false;
+    }
+
+    const date = new Date();
+    const diaActual = date.getDay();
+    const mesActual = date.getMonth();
+    const anyoActual = date.getFullYear();
+
+    if (anyo > anyoActual) {
+      setErrorAnyo("Año a futuro");
+      isValid = false;
+    }
+
+    if (dia > 29 && (mes == 2 || mes == "02")) {
+      setErrorDia("Revisa día.");
+      setErrorMes("Revisa mes.");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  
   const saveData = () => {
     comprobarRol();
     props.props.navigation.navigate(
@@ -144,21 +220,28 @@ export default function FormCrearOtros(props) {
         placeholder="Nombre"
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "name")}
+        errorMessage={errorNombre}
       />
       <Input
         placeholder="Día de nacimiento"
         inputStyle={styles.inputDate}
         onChange={(e) => onChange(e, "day")}
+        errorMessage={errorDia}
+
       />
       <Input
         placeholder="Mes de nacimiento"
         inputStyle={styles.inputDate}
         onChange={(e) => onChange(e, "month")}
+        errorMessage={errorMes}
+
       />
       <Input
         placeholder="Año de nacimiento"
         inputStyle={styles.inputDate}
         onChange={(e) => onChange(e, "year")}
+        errorMessage={errorAnyo}
+
       />
       <Picker
         selectedValue={rolName}
@@ -179,7 +262,7 @@ export default function FormCrearOtros(props) {
       <Button
         title="Guardar"
         buttonStyle={styles.boton}
-        onPress={() => saveData()}
+        onPress={() => validarFormulario()}
       />
     </View>
   );
@@ -188,8 +271,6 @@ export default function FormCrearOtros(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 20,
-    marginVertical: 20,
   },
   input: {
     width: "70%",

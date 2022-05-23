@@ -1,16 +1,21 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from "react-native";
+import React, { useCallback } from "react";
 import { useState, useEffect } from "react";
 import { ListItem, Button } from "react-native-elements";
 
 import { cerrarSesion, getUsuario } from "./Login";
 import { obtenerEstudios } from "../firebase-config";
+import Boton from "../components/boton";
+import { useFocusEffect } from "@react-navigation/core";
 
 export default function Espacio(props) {
   const [estudios, setEstudios] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+
+  useFocusEffect(useCallback(() => {
     (async () => {
+      console.log("Entrando en Espacio para ver estudio antes y después: ", estudios)
       const resultUser = [];
       const user = getUsuario();
       const result = await obtenerEstudios("estudio", user);
@@ -22,36 +27,44 @@ export default function Espacio(props) {
         
       });
       setEstudios(resultUser);
+      
+
     })();
-  }, []);
+    setLoading(false);
+  }, []));
+
+  if(loading){
+    return(
+      <View>
+        <ActivityIndicator size="large" color="black" />
+      </View>
+    )
+  }
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ flexDirection: "row", marginBottom: 5 }}>
+      <View style={styles.contenedorBotones}>
+      <View>
+     {/*   <Boton titulo="Crear estudio" funcion={props.navigation.navigate("CrearEstudio")}/>*/ }
         <Button
-          title="Crear estudio"
-          buttonStyle={{
-            width: "60%",
-            marginLeft: 15,
-            backgroundColor: "#191B4D",
-          }}
+          title="Nuevo"
+          buttonStyle={styles.boton}
           onPress={() => {
             props.navigation.navigate("CrearEstudio");
           }}
         />
 
-        <Text style={styles.header}>Estudios activos</Text>
+       {/* <Text style={styles.header}>Estudios activos</Text>*/}
       </View>
-      <View style={{ flexDirection: "row", marginBottom: 5 }}>
-        <Button
-          title="Cerrar sesión"
-          buttonStyle={{
-            width: "60%",
-            marginLeft: 15,
-            backgroundColor: "#191B4D",
-          }}
+      <View>
+     {/* <Boton titulo="Cerrar sesión" funcion={cerrarSesion(props)}/>*/}
+
+       <Button
+          title="Logout"
+          buttonStyle={styles.boton}
           onPress={() => cerrarSesion(props)}
         />
+      </View>
       </View>
       <View style={styles.contenedorEstudios}>
         {estudios.map((estudio) => {
@@ -89,9 +102,7 @@ export default function Espacio(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    marginTop: 15,
-    textAlign: "left",
+    backgroundColor: '#d8d0ee',
   },
   header: {
     fontWeight: "bold",
@@ -99,5 +110,18 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: 6,
     paddingRight: 15,
+  },
+  boton: {
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 10,
+    backgroundColor: "#191B4D",
+  },
+  contenedorBotones: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    width: '90%',
+   
+
   },
 });

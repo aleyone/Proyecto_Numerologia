@@ -10,17 +10,26 @@ export const sendToExport = (tipo, basemap) => {
   //const [impresora, setImpresora] = useState()
   console.log("He llegado a utils-sendToExport y esta es la base: ", basemap);
   console.log("Sigo aqui y esto es base0 ", basemap[0]);
-  let html = `<html>
+  let html = `<html style="border: 5px solid #3b2870;">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-  </head>
-  <body>
-    <div id="cuerpo">`;
+  
+    </head>
+  <body bgcolor="#d8d0ee">
+  <div style="margin-top: 20px; margin-bottom: 50px;">
+  <span style="padding: 20px; color: #6f0e8a; font-size: 20px; font-weight: bold; margin-bottom: 25px"}}> Numerología Evolutiva </span>
+  </div>
+    
+  
+
+    <div>`;
   if (tipo == "evolutiva") {
-    html += `<table align="center">
-<caption>Numerología Evolutiva</caption>
+    html += `<table align="left" border="1" bordercolor="#3b2870">
+
 <thead>
 <tr>
+<div style="border: 1px solid black; background-color: #EDEAF4; margin-bottom: 20px;">
+
 <th>Casa</th>
 <th>1</th>
 <th>2</th>
@@ -31,6 +40,7 @@ export const sendToExport = (tipo, basemap) => {
 <th>7</th>
 <th>8</th>
 <th>9</th>
+</div>
 </tr>
 </thead>
 <tbody>

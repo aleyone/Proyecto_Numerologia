@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseApp } from "../firebase-config";
 import { Input, Button } from "react-native-elements";
+import Boton from "../components/boton";
 
 const initialState = {
   email: "",
@@ -43,7 +44,7 @@ export default function Login(props) {
         const user = userCredential.user;
         setUsuario(user.uid);
         console.log(user);
-        props.navigation.navigate("DrawNavigation");
+        props.navigation.navigate("Espacio");
       })
       .catch((error) => {
         console.log(error);
@@ -63,11 +64,12 @@ export default function Login(props) {
         onChange={(e) => onChange(e, "password")}
         secureTextEntry={true}
       />
-      <Button
+     {/*} <Button
         title="Accede"
         buttonStyle={styles.boton}
         onPress={handleSignIn}
-      />
+  />*/}
+     <Boton titulo="Acceder" funcion={handleSignIn}/>
     </ScrollView>
   );
 }

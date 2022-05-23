@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Icon, ListItem, Button } from "react-native-elements";
 import {
   deleteEstudio,
@@ -7,6 +7,8 @@ import {
   unEstudio,
   deleteFamiliar,
 } from "../firebase-config";
+import Boton from "../components/boton";
+import { useFocusEffect } from "@react-navigation/core";
 
 let estudioId = "";
 let form = [];
@@ -19,7 +21,7 @@ export default function DetalleEstudio(props) {
   const [id, setId] = useState();
   let familiaresVisibles = true;
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     (async () => {
       estudioId = props.route.params.estudioId;
       form = props.route.params.form;
@@ -51,21 +53,7 @@ export default function DetalleEstudio(props) {
         }
       })();
     })();
-    /*(async () => {
-      const result = await obtenerFamiliar(
-        "estudio",
-        props.route.params.estudioId
-      );
-      console.log(
-        "Esto es el futuro array de familiares antes de setear ",
-        result
-      );
-      if(result!=null){
-      setFamiliares(result);
-      familiaresVisibles==true;
-      }
-    })();*/
-  }, []);
+   }, []));
 
   const confirmarDelete = () => {
     Alert.alert("Eliminar usuario", "¿Estás seguro?", [
@@ -135,12 +123,12 @@ export default function DetalleEstudio(props) {
           </View>
         </View>
         <View style={styles.apartado}>
-          <View style={styles.datos}>
+          <View style={styles.datos2}>
             <Text style={styles.text}>Datos familiares</Text>
             <Button
-              title="Añadir familiar"
+              title="Añadir"
               buttonStyle={{
-                width: "60%",
+                width: "70%",
                 marginLeft: 15,
                 backgroundColor: "#191B4D",
               }}
@@ -200,11 +188,17 @@ export default function DetalleEstudio(props) {
             </View>
           </ScrollView>
           <View>
-            <Text style={{ marginTop: 10 }}>
-              Aquí van los botones para los estudios
-            </Text>
+
+          {/*}  <Boton titulo="Numerología Evolutiva" funcion={props.navigation.navigate("NumerologiaEvolutiva", {
+                  datos: estudio,
+                })}/>
+                 <Boton titulo="Numerología Familiar" funcion={props.navigation.navigate("NumerologiaTransgeneracional", {
+                  datos: estudio,
+                  estudioId: props.route.params.estudioId,
+                })}/>*/}
             <Button
               title="Evolutiva"
+              buttonStyle={styles.boton}
               onPress={() => {
                 props.navigation.navigate("NumerologiaEvolutiva", {
                   datos: estudio,
@@ -213,6 +207,7 @@ export default function DetalleEstudio(props) {
             />
             <Button
               title="Transgeneracional"
+              buttonStyle={styles.boton}
               onPress={() => {
                 props.navigation.navigate("NumerologiaTransgeneracional", {
                   datos: estudio,
@@ -230,9 +225,8 @@ export default function DetalleEstudio(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 35,
-    paddingTop: 15,
-    width: "98%",
+    backgroundColor: '#d8d0ee',
+
   },
   text: {
     fontSize: 16,
@@ -243,13 +237,22 @@ const styles = StyleSheet.create({
   },
   datos: {
     margin: 10,
-    backgroundColor: "white",
     paddingLeft: 5,
     paddingTop: 5,
     width: "60%",
   },
+  datos2: {
+    margin: 10,
+    paddingLeft: 5,
+    paddingTop: 5,
+    width: "60%",
+    flexDirection:'row',
+  },
   subcontain: {
     flexDirection: "row",
+    borderColor: '#6f0e8a',
+    borderWidth: 1,
+    backgroundColor: '#EDEAF4',    
   },
   options: {
     marginTop: 13,
@@ -263,9 +266,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 13,
   },
   texto: {
-    fontSize: 16,
+    fontSize: 14,
+    paddingBottom:3,
   },
   apartado: {
-    marginVertical: 15,
+    backgroundColor: '#d8d0ee',
+
+  },
+  boton: {
+    width: "90%",
+    alignSelf: "center",
+    marginTop: 15,
+    borderRadius: 10,
+    backgroundColor: "#191B4D",
   },
 });

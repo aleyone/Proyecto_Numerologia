@@ -2,3 +2,8 @@
 instancia.
 
 2- revisar cuando se añade familiar no se refresca la vista
+
+
+
+Bibliografía
+useFocusEffect - https://reactnavigation.org/docs/function-after-focusing-screen/

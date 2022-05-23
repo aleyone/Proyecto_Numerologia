@@ -7,6 +7,7 @@ import { firebaseApp } from "../firebase-config";
 import { size } from "lodash";
 
 import { validarEmail } from "../utils/utils";
+import Boton from "../components/boton";
 
 export default function Registro({ navigation }) {
   const [email, setEmail] = useState("");
@@ -92,11 +93,12 @@ export default function Registro({ navigation }) {
         secureTextEntry={true}
         errorMessage={errorConfirm}
       />
-      <Button
+     {/*} <Boton titulo="Confirmar" funcion={registrarUsuario}/>*/}
+    <Button
         title="Accede"
         buttonStyle={styles.boton}
         onPress={registrarUsuario}
-      />
+  />
     </ScrollView>
   );
 }

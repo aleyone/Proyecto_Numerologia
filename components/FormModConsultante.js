@@ -263,10 +263,7 @@ export default function FormModConsultante(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 20,
-    marginVertical: 20,
-    marginTop: 30,
-  },
+   },
   input: {
     width: "70%",
     height: 10,

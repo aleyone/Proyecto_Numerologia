@@ -42,12 +42,6 @@ export default function FormCrearConsultante(props) {
 
   const onChange = (e, type) => {
     setForm({ ...form, [type]: e.nativeEvent.text });
-    console.log(
-      "formulario después del OnChange: =================" +
-        form.year +
-        " - " +
-        form.name
-    );
   };
 
   const validarDatos = () => {
@@ -255,9 +249,6 @@ export default function FormCrearConsultante(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 20,
-    marginVertical: 20,
-    marginTop: 30,
   },
   input: {
     width: "70%",

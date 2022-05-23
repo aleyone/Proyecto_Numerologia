@@ -19,6 +19,10 @@ export default function FormModOtros(props) {
   const [form, setForm] = useState();
   const [rolName, setRol] = useState();
   const [loading, setLoading] = useState(true)
+  const [errorNombre, setErrorNombre] = useState("");
+  const [errorDia, setErrorDia] = useState("");
+  const [errorMes, setErrorMes] = useState("");
+  const [errorAnyo, setErrorAnyo] = useState("");
 
   useEffect(() => {
   
@@ -46,11 +50,86 @@ export default function FormModOtros(props) {
     setForm({ ...form, [type]: e.nativeEvent.text });
   };
 
-  /*const comprobarRol = () => {
-    form.rol = rolName;
-  }*/
+  const validarFormulario = () => {
+    if (!validarDatos()) {
+      return;
+    }
+    saveData();
+  };
 
-  const data = {
+  const validarDatos = () => {
+    setErrorDia("");
+    setErrorMes("");
+    setErrorAnyo("");
+    let isValid = true;
+
+    let dia = parseInt(form.day);
+    let mes = parseInt(form.month);
+    let anyo = parseInt(form.year);
+
+    if (
+      form.name == null ||
+      form.lastName1 == null ||
+      form.lastName2 == null ||
+      form.lastName3 == null ||
+      form.lastName4 == null
+    ) {
+      setErrorNombre("No puede ser vacío");
+      isValid = false;
+    }
+
+    if (!Number.isInteger(dia)) {
+      setErrorDia("Revisa día");
+      isValid = false;
+    }
+
+    if (!Number.isInteger(mes)) {
+      setErrorMes("Revisa mes.");
+      isValid = false;
+    }
+
+    if (!Number.isInteger(anyo)) {
+      setErrorAnyo("Revisa el año.");
+      isValid = false;
+    }
+    // size(anyo) > 4 ||
+    /*if (size(anyo) < 1) {
+      setErrorAnyo("Revisa año.-");
+      isValid = false;
+    }*/
+
+    if (dia > 31 || dia < 1) {
+      setErrorDia("Revisa día.");
+
+      isValid = false;
+    }
+
+    if (mes > 12 || mes < 1) {
+      setErrorMes("Revisa mes.");
+
+      isValid = false;
+    }
+
+    const date = new Date();
+    const diaActual = date.getDay();
+    const mesActual = date.getMonth();
+    const anyoActual = date.getFullYear();
+
+    if (anyo > anyoActual) {
+      setErrorAnyo("Año a futuro");
+      isValid = false;
+    }
+
+    if (dia > 29 && (mes == 2 || mes == "02")) {
+      setErrorDia("Revisa día.");
+      setErrorMes("Revisa mes.");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+   const data = {
     name: form.name, day: form.day, month: form.month, year: form.year, rol: form.key
   }
 
@@ -73,6 +152,8 @@ export default function FormModOtros(props) {
         placeholder="Nombre"
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "name")}
+        errorMessage={errorNombre}
+
       />
       <Input
         value={form.day}
@@ -111,7 +192,7 @@ export default function FormModOtros(props) {
       <Button
         title="Guardar"
         buttonStyle={styles.boton}
-        onPress={() => saveData()}
+        onPress={() => validarFormulario()}
       />
     </View>
   );
@@ -120,8 +201,6 @@ export default function FormModOtros(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 20,
-    marginVertical: 20,
   },
   input: {
     width: "70%",
