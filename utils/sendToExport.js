@@ -96,7 +96,7 @@ export const sendToExport = (tipo, basemap) => {
         registro.Rol +
         `: ` +
         registro.Nombre +
-        `</p><br><table align="center">
+        `</p><br><table align="left" border="1" bordercolor="#3b2870">
       <tbody>
       <tr>
       <td>&nbsp;</td>

@@ -72,7 +72,7 @@ export const updateData = async (collection, id, tipo, rol, datos) => {
     console.log("Estos son los datos recibidos: ", datos)
     db.collection(collection)
     .doc(id)
-    .set( {Datos_personales: datos}, {merge:true} );
+    .set( datos, {merge:true} );
   console.log(tipo, "actualizado en bbdd");
   } else if (tipo == "familiar") {
    const rol2 = "Datos_familiares." + rol;

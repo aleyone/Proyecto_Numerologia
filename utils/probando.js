@@ -34,9 +34,20 @@ var hasUno = false,
   hasNueve = false;
 
 const mapeo = (letters, iniciales) => {
+  habitanteUno = 1,
+  habitanteDos = 1,
+  habitanteTres = 1,
+  habitanteCuatro = 1,
+  habitanteCinco = 1,
+  habitanteSeis = 1,
+  habitanteSiete = 1,
+  habitanteOcho = 1,
+  habitanteNueve = 1;
+  
   arrIniciales = iniciales;
   arrLetras = letters;
   var letra = letters.split("");
+  console.log("Voy a mapear la ", letters)
 
   // Asignar letras
   const dameLetras = letra.map(function (letras) {

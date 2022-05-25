@@ -53,7 +53,7 @@ export default function FormCrearOtros(props) {
     let anyo = parseInt(form.year);
 
     if (
-      form.name == null
+      form.name == ""
     ) {
       setErrorNombre("No puede ser vacío");
       isValid = false;
@@ -65,12 +65,12 @@ export default function FormCrearOtros(props) {
     }
 
     if (!Number.isInteger(mes)) {
-      setErrorMes("Revisa mes.");
+      setErrorMes("Revisa mes");
       isValid = false;
     }
 
     if (!Number.isInteger(anyo)) {
-      setErrorAnyo("Revisa el año.");
+      setErrorAnyo("Revisa el año");
       isValid = false;
     }
     // size(anyo) > 4 ||
@@ -80,13 +80,13 @@ export default function FormCrearOtros(props) {
     }*/
 
     if (dia > 31 || dia < 1) {
-      setErrorDia("Revisa día.");
+      setErrorDia("Revisa día");
 
       isValid = false;
     }
 
     if (mes > 12 || mes < 1) {
-      setErrorMes("Revisa mes.");
+      setErrorMes("Revisa mes");
 
       isValid = false;
     }
@@ -96,14 +96,14 @@ export default function FormCrearOtros(props) {
     const mesActual = date.getMonth();
     const anyoActual = date.getFullYear();
 
-    if (anyo > anyoActual) {
-      setErrorAnyo("Año a futuro");
+    if (anyo > anyoActual && dia > diaActual && mes > mesActual) {
+      setErrorAnyo("Fecha futura. No válida.");
       isValid = false;
     }
 
     if (dia > 29 && (mes == 2 || mes == "02")) {
-      setErrorDia("Revisa día.");
-      setErrorMes("Revisa mes.");
+      setErrorDia("Revisa día");
+      setErrorMes("Revisa mes");
       isValid = false;
     }
 
@@ -256,7 +256,7 @@ export default function FormCrearOtros(props) {
         <Picker.Item label="Abuelo paterno" value="abuelopaterno" />
         <Picker.Item label="Abuela paterna" value="abuelapaterna" />
         <Picker.Item label="Abuelo materno" value="abuelomaterno" />
-        <Picker.Item label="Abuela paterno" value="abuelamaterna" />
+        <Picker.Item label="Abuela materna" value="abuelamaterna" />
         <Picker.Item label="Pareja" value="pareja" />
       </Picker>
       <Button

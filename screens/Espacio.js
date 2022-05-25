@@ -60,7 +60,7 @@ export default function Espacio(props) {
      {/* <Boton titulo="Cerrar sesión" funcion={cerrarSesion(props)}/>*/}
 
        <Button
-          title="Logout"
+          title="Cerrar sesión"
           buttonStyle={styles.boton}
           onPress={() => cerrarSesion(props)}
         />
@@ -120,8 +120,7 @@ const styles = StyleSheet.create({
   contenedorBotones: {
     marginVertical: 10,
     flexDirection: 'row',
-    width: '90%',
-   
-
+    width: '85%',
+    alignContent: 'center'
   },
 });

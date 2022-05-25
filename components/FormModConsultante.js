@@ -56,6 +56,7 @@ export default function FormModConsultante(props) {
   };
 
   const validarDatos = () => {
+    console.log(form)
     setErrorDia("");
     setErrorMes("");
     setErrorAnyo("");
@@ -66,15 +67,16 @@ export default function FormModConsultante(props) {
     let anyo = parseInt(form.year);
 
     if (
-      form.name == null ||
-      form.lastName1 == null ||
-      form.lastName2 == null ||
-      form.lastName3 == null ||
-      form.lastName4 == null
+      form.name == "" ||
+      form.lastName1 == "" ||
+      form.lastName2 == "" ||
+      form.lastName3 == "" ||
+      form.lastName4 == ""
     ) {
       setErrorNombre("No puede ser vacío");
       isValid = false;
     }
+    
 
     if (!Number.isInteger(dia)) {
       setErrorDia("Revisa día");
@@ -135,6 +137,7 @@ export default function FormModConsultante(props) {
       form.lastName3.split() +
       form.lastName4.split()
     ).toLowerCase();
+    console.log("MAPEO DESDE MODIFICAR: ", letters)
 
     console.log(letters);
     let iniciales = [
@@ -155,7 +158,7 @@ export default function FormModConsultante(props) {
     console.log(numerologia);
 
     const data = {
-      //Datos_personales: {
+      Datos_personales: {
         Nombre_consultante: {
           Nombre: form.name,
           Apellido_1: form.lastName1,
@@ -168,7 +171,7 @@ export default function FormModConsultante(props) {
           Mes: form.month,
           Anyo: form.year,
         },
-    //  },
+      },
 
       Numerologia_evolutiva: response,
     };
@@ -200,7 +203,7 @@ export default function FormModConsultante(props) {
         errorMessage={errorNombre}
       />
       <Input
-        label="Apellido abuela paterno"
+        label="Apellido abuela paterna"
         value={form.lastName2}
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "lastName2")}

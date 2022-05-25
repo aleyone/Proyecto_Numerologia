@@ -90,7 +90,7 @@ export default function NumerologiaEvolutiva(props) {
   return (
     <ScrollView style={styles.container}>
       <View style={{ alignSelf: "center", marginTop: 20 }}>
-        <Text>Numerologia_evolutiva</Text>
+        <Text>NUMEROLOGÍA EVOLUTIVA</Text>
       </View>
       <View style={styles.castillo}>
         <View style={styles.cabeceras}>

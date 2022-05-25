@@ -64,7 +64,7 @@ export default function DetalleEstudio(props) {
 
   const eliminar = async () => {
     await deleteEstudio("estudio", estudioId);
-    props.navigation.navigate("DrawNavigation");
+    props.navigation.navigate("Espacio");
   };
 
   const confirmarDeleteFamiliar = (rol) => {
@@ -77,7 +77,7 @@ export default function DetalleEstudio(props) {
   const eliminarFamiliar = async (rol) => {
     console.log("Entramos en eliminarFamiliar");
     await deleteFamiliar("estudio", estudioId, rol);
-    props.navigation.navigate("DrawNavigation");
+   props.navigation.navigate("Trampa");
   };
 
   const updateConsultante = () => {
@@ -153,7 +153,7 @@ export default function DetalleEstudio(props) {
                           <ListItem.Content>
                             <ListItem.Title>Rol: {familiar.rol}</ListItem.Title>
                             <ListItem.Subtitle>
-                              {familiar.day}/{familiar.month}/{familiar.year}
+                              {familiar.name} - {familiar.day}/{familiar.month}/{familiar.year}
                             </ListItem.Subtitle>
                           </ListItem.Content>
                         </ListItem>
@@ -211,7 +211,7 @@ export default function DetalleEstudio(props) {
               onPress={() => {
                 props.navigation.navigate("NumerologiaTransgeneracional", {
                   datos: estudio,
-                  estudioId: props.route.params.estudioId,
+                  estudioId: estudioId,
                 });
               }}
             />

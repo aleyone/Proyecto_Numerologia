@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
 import React from "react";
 import { Input, Button } from "react-native-elements";
 import { useState } from "react";
@@ -31,41 +31,56 @@ export default function Registro({ navigation }) {
     setErrorPassword("");
     let isValid = true;
 
-    if (!validarEmail(email)) {
-      setErrorEmail("Añade un correo válido.");
+    if (email == "" || password == "" || confirmPass == "") {
+      Alert.alert("No puedes dejar campos en blanco");
       isValid = false;
-    }
+    } else {
+      if (!validarEmail(email)) {
+        setErrorEmail("Añade un correo válido");
+        isValid = false;
+      }
 
-    if (size(password) < 6) {
-      setErrorPassword("Contraseña de al menos 6 carácteres.");
-      isValid = false;
-    }
+      if (size(password) < 6) {
+        setErrorEmail("Contraseña de al menos 6 carácteres");
+        isValid = false;
+      }
 
-    if (size(confirmPass) < 6) {
-      setErrorConfirm("Confirmación de contraseña de al menos 6 carácteres.");
-      isValid = false;
-    }
+      if (size(confirmPass) < 6) {
+        setErrorPassword("Confirmación de contraseña de al menos 6 carácteres.");
+        isValid = false;
+      }
 
-    if (password !== confirmPass) {
-      setErrorPassword("La contraseña y la confirmación no son iguales.");
-      setErrorConfirm("La contraseña y la confirmación no son iguales.");
-      isValid = false;
-    }
+      if (password !== confirmPass) {
+        Alert.alert("La contraseña y la confirmación no son iguales.");
+        // setErrorConfirm("La contraseña y la confirmación no son iguales.");
+        isValid = false;
+      }
 
-    return isValid;
+      return isValid;
+    }
   };
 
   const handleCreateUser = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log("Cuenta creada");
-        const user = userCredential.user;
-        console.log(user);
-        navigation.navigate("DrawNavigation");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (email != "" && password != "" && confirmPass != "") {
+      createUserWithEmailAndPassword(auth, email.toLowerCase(), password)
+        .then((userCredential) => {
+          console.log("Cuenta creada");
+          const user = userCredential.user;
+          console.log(user);
+          navigation.navigate("DrawNavigation");
+        })
+        .catch((error) => {
+          if (error.message == "Firebase: Error (auth/user-not-found).") {
+            console.log("Correo no existente");
+            setErrorEmail("Correo inexistente");
+          } else if (
+            error.message == "Firebase: Error (auth/wrong-password)."
+          ) {
+            setErrorPassword("Contraseña no válida");
+          } else setErrorEmail(error.message);
+          //console.log(error);
+        });
+    } else Alert.alert("Introduce datos");
   };
 
   return (
@@ -93,12 +108,12 @@ export default function Registro({ navigation }) {
         secureTextEntry={true}
         errorMessage={errorConfirm}
       />
-     {/*} <Boton titulo="Confirmar" funcion={registrarUsuario}/>*/}
-    <Button
-        title="Accede"
+      {/*} <Boton titulo="Confirmar" funcion={registrarUsuario}/>*/}
+      <Button
+        title="Confirmar"
         buttonStyle={styles.boton}
         onPress={registrarUsuario}
-  />
+      />
     </ScrollView>
   );
 }

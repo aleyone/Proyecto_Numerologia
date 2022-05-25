@@ -1,9 +1,20 @@
-1- Cuando nos deslogamos se queda el registro de los datos logados en primera 
-instancia.
 
-2- revisar cuando se añade familiar no se refresca la vista
+
+6- revisar validaciones para no incluir varios padres, madres, etc, 
+llamando a los métodos de utils. Ver dos padres / dos madres
+
+8 - Validar tipo de dato nombre/apellidos solo letras ******
+
+
 
 
 
 Bibliografía
 useFocusEffect - https://reactnavigation.org/docs/function-after-focusing-screen/
+estilos - https://www.w3schools.com/
+firebase - https://firebase.google.com/docs/database/rest/start?hl=es
+crud con expo - https://www.youtube.com/watch?v=VE7J0SA1PRQ
+configuración firebase - https://www.youtube.com/watch?v=fWsfvZD_abI
+expo print - https://docs.expo.dev/versions/latest/sdk/print
+recorrer objetos por key - https://codesource.io/how-to-use-object-keys-in-foreach/
+set y update firebase - https://www.mejorcodigo.com/p/154832.html

@@ -12,38 +12,41 @@ export default function FormModOtros(props) {
       day: 0,
       month: 0,
       year: 0,
-      key: ""
+      key: "",
     };
   };
 
   const [form, setForm] = useState();
   const [rolName, setRol] = useState();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [errorNombre, setErrorNombre] = useState("");
   const [errorDia, setErrorDia] = useState("");
   const [errorMes, setErrorMes] = useState("");
   const [errorAnyo, setErrorAnyo] = useState("");
 
   useEffect(() => {
-  
     (async () => {
-      const resultado = await getConsultanteToUpdate("estudio", props.route.params.estudioId, "familiares", props.route.params.rol);
-      
-      console.log("A ver cómo entra el resultado: ",resultado)
-      console.log(resultado.name)
-      
+      const resultado = await getConsultanteToUpdate(
+        "estudio",
+        props.route.params.estudioId,
+        "familiares",
+        props.route.params.rol
+      );
+
+      console.log("A ver cómo entra el resultado: ", resultado);
+      console.log(resultado.name);
+
       setForm(resultado);
       setLoading(false);
-      })();
-      
+    })();
   }, []);
 
-  if(loading){
-    return(
+  if (loading) {
+    return (
       <View>
         <ActivityIndicator size="large" color="black" />
       </View>
-    )
+    );
   }
 
   const onChange = (e, type) => {
@@ -61,20 +64,15 @@ export default function FormModOtros(props) {
     setErrorDia("");
     setErrorMes("");
     setErrorAnyo("");
+    setErrorNombre("");
     let isValid = true;
 
     let dia = parseInt(form.day);
     let mes = parseInt(form.month);
     let anyo = parseInt(form.year);
 
-    if (
-      form.name == null ||
-      form.lastName1 == null ||
-      form.lastName2 == null ||
-      form.lastName3 == null ||
-      form.lastName4 == null
-    ) {
-      setErrorNombre("No puede ser vacío");
+    if (form.name == "") {
+      setErrorNombre("No puede estar vacío");
       isValid = false;
     }
 
@@ -84,12 +82,12 @@ export default function FormModOtros(props) {
     }
 
     if (!Number.isInteger(mes)) {
-      setErrorMes("Revisa mes.");
+      setErrorMes("Revisa mes");
       isValid = false;
     }
 
     if (!Number.isInteger(anyo)) {
-      setErrorAnyo("Revisa el año.");
+      setErrorAnyo("Revisa el año");
       isValid = false;
     }
     // size(anyo) > 4 ||
@@ -99,13 +97,13 @@ export default function FormModOtros(props) {
     }*/
 
     if (dia > 31 || dia < 1) {
-      setErrorDia("Revisa día.");
+      setErrorDia("Revisa día");
 
       isValid = false;
     }
 
     if (mes > 12 || mes < 1) {
-      setErrorMes("Revisa mes.");
+      setErrorMes("Revisa mes");
 
       isValid = false;
     }
@@ -115,26 +113,41 @@ export default function FormModOtros(props) {
     const mesActual = date.getMonth();
     const anyoActual = date.getFullYear();
 
-    if (anyo > anyoActual) {
-      setErrorAnyo("Año a futuro");
-      isValid = false;
+
+
+    var fechaInicio = new Date().getTime();
+    var fechaFin = new Date(anyo+'-'+mes+'-'+dia).getTime();
+
+    console.log("Fecha inicio",fechaInicio)
+    console.log("Fecha fin ",fechaFin)
+
+
+
+    if (fechaFin > fechaInicio){
+          setErrorAnyo("Fecha futura. No válida.");
+          isValid = false;
     }
+     
 
     if (dia > 29 && (mes == 2 || mes == "02")) {
-      setErrorDia("Revisa día.");
-      setErrorMes("Revisa mes.");
+      setErrorDia("Revisa día");
+      setErrorMes("Revisa mes");
       isValid = false;
     }
 
     return isValid;
   };
 
-   const data = {
-    name: form.name, day: form.day, month: form.month, year: form.year, rol: form.key
-  }
+  const data = {
+    name: form.name,
+    day: form.day,
+    month: form.month,
+    year: form.year,
+    rol: form.key,
+  };
 
   const saveData = () => {
-    form.rol = rolName
+    form.rol = rolName;
     updateData(
       "estudio",
       props.route.params.estudioId,
@@ -142,7 +155,7 @@ export default function FormModOtros(props) {
       form.key,
       data
     );
-    props.navigation.navigate("Espacio");
+    props.navigation.navigate("DetalleEstudio");
   };
 
   return (
@@ -153,7 +166,6 @@ export default function FormModOtros(props) {
         inputStyle={styles.input}
         onChange={(e) => onChange(e, "name")}
         errorMessage={errorNombre}
-
       />
       <Input
         value={form.day}
@@ -173,7 +185,7 @@ export default function FormModOtros(props) {
         inputStyle={styles.inputDate}
         onChange={(e) => onChange(e, "year")}
       />
-     {/* <Picker
+      {/* <Picker
         selectedValue={rolName}
         style={{ height: 50, width: 200 }}
         onValueChange={(itemValue, itemIndex) => setRol(itemValue)}

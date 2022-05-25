@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { obtenerFechas, updateData } from "../firebase-config";
 import transgeneracional from "../utils/calcTransg";
 import { Button } from "react-native-elements";
-import {sendToExport} from "../utils/sendToExport";
+import { sendToExport } from "../utils/sendToExport";
 import Boton from "../components/boton";
 
 export default function NumerologiaTransgeneracional(props) {
   const [fechas, setFechas] = useState({});
   const [datos, setDatos] = useState({});
   const [id, setId] = useState();
-  const exportPDF =[];
+  const exportPDF = [];
 
   useEffect(() => {
     (async () => {
@@ -36,9 +36,9 @@ export default function NumerologiaTransgeneracional(props) {
   );
 
   const exportar = () => {
-    console.log("Desde numerologia familiar voy a exportar, ", data)
+    console.log("Desde numerologia familiar voy a exportar, ", data);
     sendToExport("familiar", data);
-  }
+  };
 
   const volver = () => {
     props.navigation.navigate("DetalleEstudio", props.route.params.estudioId);
@@ -53,34 +53,41 @@ export default function NumerologiaTransgeneracional(props) {
         {data.map((datos, index) => {
           return (
             <View key={index}>
+              <View style={styles.nombre}>
+                <Text style={styles.textNom}>
+                  {datos.Rol}: </Text><Text>{datos.Nombre}
+                </Text>
+              </View>
               <View style={styles.pinaculo}>
                 <View style={styles.maestro}>
                   <Text style={styles.text}>{datos.Maestro}</Text>
                 </View>
-                <View style={styles.ancestros}>
+                <View style={styles.ancestro}>
                   <Text style={styles.text}>
-                    {datos.Ancestro1} {datos.Ancestro2}
+                    {datos.Ancestro1}   {datos.Ancestro2}
                   </Text>
                 </View>
-                <View style={styles.central}>
+                <View style={styles.centro}>
                   <Text style={styles.text}>
-                    {datos.Mes} {datos.Dia} {datos.Anyo}
+                    {datos.Mes}   {datos.Dia}   {datos.Anyo}
                   </Text>
                 </View>
-                <View style={styles.emocional}>
+                <View style={styles.ancestro}>
                   <Text style={styles.text}>
-                    {datos.Emocional1} {datos.Emocional2}
+                    {datos.Emocional1}   {datos.Emocional2}
                   </Text>
                 </View>
-                <View style={styles.anclaje}>
+                <View style={styles.maestro}>
                   <Text style={styles.text}>{datos.Anclaje}</Text>
                 </View>
               </View>
-              <View style={styles.nombre}>
-                <Text style={styles.textNom}>
-                  {datos.Rol}: {datos.Nombre}
-                </Text>
-              </View>
+              <View
+                style={{
+                  borderBottomColor: "black",
+                  borderBottomWidth: 1,
+                  marginBottom: 5,
+                }}
+              />
             </View>
           );
         })}
@@ -88,18 +95,11 @@ export default function NumerologiaTransgeneracional(props) {
       {/*<Boton titulo="Exportar" funcion={exportar()}/>
       <Boton titulo="Volver" funcion={volver()}/>*/}
 
-   <Button
+      <Button
         title="Exportar"
         buttonStyle={styles.boton}
         onPress={() => {
           exportar();
-        }}
-      />
-      <Button
-        title="Volver"
-        buttonStyle={styles.boton}
-        onPress={() => {
-          volver();
         }}
       />
     </ScrollView>
@@ -109,33 +109,25 @@ export default function NumerologiaTransgeneracional(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 35,
-    paddingTop: 15,
-    alignContent: "center",
-    width: "98%",
+    marginTop: 5,
+    paddingTop: 5,
+    width: "100%",
   },
   pinaculo: {
-    textAlign: "center",
-    marginHorizontal: 50,
+    marginHorizontal: 30,
   },
   maestro: {
-    textAlign: "center",
+    marginLeft: 30,
   },
-  ancestros: {
-    textAlign: "center",
+  ancestro: {
+    marginLeft: 15,
   },
-  central: {
-    textAlign: "center",
+  centro: {
+    marginLeft: 0,
   },
-  emocional: {
-    textAlign: "center",
-  },
-  anclaje: {
-    textAlign: "center",
-  },
+
   text: {
     fontSize: 20,
-    marginHorizontal: 20,
   },
   textNom: {
     color: "red",

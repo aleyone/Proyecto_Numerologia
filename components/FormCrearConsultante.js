@@ -55,11 +55,11 @@ export default function FormCrearConsultante(props) {
     let anyo = parseInt(form.year);
 
     if (
-      form.name == null ||
-      form.lastName1 == null ||
-      form.lastName2 == null ||
-      form.lastName3 == null ||
-      form.lastName4 == null
+      form.name == "" ||
+      form.lastName1 == "" ||
+      form.lastName2 == "" ||
+      form.lastName3 == "" ||
+      form.lastName4 == ""
     ) {
       setErrorNombre("No puede ser vacío");
       isValid = false;
@@ -97,14 +97,12 @@ export default function FormCrearConsultante(props) {
       isValid = false;
     }
 
-    const date = new Date();
-    const diaActual = date.getDay();
-    const mesActual = date.getMonth();
-    const anyoActual = date.getFullYear();
+    var fechaInicio = new Date().getTime();
+    var fechaFin = new Date(anyo+'-'+mes+'-'+dia).getTime();
 
-    if (anyo > anyoActual) {
-      setErrorAnyo("Año a futuro");
-      isValid = false;
+    if (fechaFin > fechaInicio){
+          setErrorAnyo("Fecha futura. No válida.");
+          isValid = false;
     }
 
     if (dia > 29 && (mes == 2 || mes == "02")) {

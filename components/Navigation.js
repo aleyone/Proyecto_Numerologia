@@ -19,6 +19,7 @@ import NumerologiaEvolutiva from "../screens/NumerologiaEvolutiva";
 import NumerologiaTransgeneracional from "../screens/NumerologiaTransgeneracional";
 import FormModConsultante from "./FormModConsultante";
 import FormModOtros from "./FormModOtros";
+import Trampa from "../screens/Trampa";
 
 
 export default function Navigation() {
@@ -50,7 +51,7 @@ export default function Navigation() {
           name="Registro"
           component={Registro}
           options={{
-            headerShown: false,
+            title: "Regístrate"
           }}
         />
         <Stack.Screen
@@ -115,6 +116,13 @@ export default function Navigation() {
           component={FormModOtros}
           options={{
             title: "Modifica datos del familiar",
+          }}
+        />
+        <Stack.Screen
+          name="Trampa"
+          component={Trampa}
+          options={{
+            headerShown: false,
           }}
         />
         <Stack.Screen
