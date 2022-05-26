@@ -110,14 +110,12 @@ export default function FormModConsultante(props) {
       isValid = false;
     }
 
-    const date = new Date();
-    const diaActual = date.getDay();
-    const mesActual = date.getMonth();
-    const anyoActual = date.getFullYear();
+    var fechaInicio = new Date().getTime();
+    var fechaFin = new Date(anyo+'-'+mes+'-'+dia).getTime();
 
-    if (anyo > anyoActual) {
-      setErrorAnyo("Año a futuro");
-      isValid = false;
+    if (fechaFin > fechaInicio){
+          setErrorAnyo("Fecha futura. No válida.");
+          isValid = false;
     }
 
     if (dia > 29 && (mes == 2 || mes == "02")) {

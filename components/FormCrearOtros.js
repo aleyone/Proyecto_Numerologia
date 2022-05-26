@@ -3,7 +3,7 @@ import { Input, Button } from "react-native-elements";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { updateData } from "../firebase-config";
-import { contadorHijos, contadorParejas, contadorHermanos } from "../utils/utils";
+import { contadorHijos, contadorParejas, contadorHermanos, contadorPadres } from "../utils/utils";
 
 export default function FormCrearOtros(props) {
   const defaultValues = () => {
@@ -91,14 +91,12 @@ export default function FormCrearOtros(props) {
       isValid = false;
     }
 
-    const date = new Date();
-    const diaActual = date.getDay();
-    const mesActual = date.getMonth();
-    const anyoActual = date.getFullYear();
+    var fechaInicio = new Date().getTime();
+    var fechaFin = new Date(anyo+'-'+mes+'-'+dia).getTime();
 
-    if (anyo > anyoActual && dia > diaActual && mes > mesActual) {
-      setErrorAnyo("Fecha futura. No válida.");
-      isValid = false;
+    if (fechaFin > fechaInicio){
+          setErrorAnyo("Fecha futura. No válida.");
+          isValid = false;
     }
 
     if (dia > 29 && (mes == 2 || mes == "02")) {
@@ -122,9 +120,10 @@ export default function FormCrearOtros(props) {
 
   const comprobarRol = () => {
     if (rolName == "padre") {
-      if (padre < 1) {
-        form.rol = "Padre";
-        padre++;
+      var padre = contadorPadres();
+      
+      if (padre <= 2) {
+        form.rol = "Padre " + padre;        
         console.log("Padre");
         updateData(
           "estudio",
@@ -133,7 +132,7 @@ export default function FormCrearOtros(props) {
           form.rol,
           form
         );
-      } else errorMessage = "Ya has puesto un padre";
+      } else errorMessage = "Máximo dos padres.";
     } else if (rolName == "madre") {
       if (madre < 1) {
         form.rol = "Madre";

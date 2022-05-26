@@ -1,6 +1,7 @@
 var hijo=0;
 var pareja=0;
 var hermano=0;
+var padre = 0;
 
 export function validarEmail(email) {
   const re =
@@ -41,4 +42,10 @@ export function contadorHermanos() {
   return hermano;  
 }
 
+export function contadorPadres() {
+  if(padre <=1){
+    padre++;
+  } 
+  return padre;
+}
 

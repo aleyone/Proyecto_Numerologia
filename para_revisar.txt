@@ -4,6 +4,8 @@
 llamando a los métodos de utils. Ver dos padres / dos madres
 
 8 - Validar tipo de dato nombre/apellidos solo letras ******
+9 - Si borramos familiares reiniciar el orden de los
+ contadores para que al crear se creen de nuevo desde 0
 
 
 
