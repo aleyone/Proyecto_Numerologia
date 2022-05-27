@@ -1,5 +1,11 @@
 import { View, Text } from "react";
 
+/**
+ * se realizan los cálculos para devolver 
+ * los números que se mostrarán en NumerologiaTransgeneracional
+ * @param {*} datos 
+ * @returns devuelve un JSON de números
+ */
 const transgeneracional = (datos) => {
   let numeros = [];
 

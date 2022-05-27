@@ -1,8 +1,9 @@
 import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { useState, useEffect } from "react";
-import { Picker } from "@react-native-picker/picker";
 import { updateData, getConsultanteToUpdate } from "../firebase-config";
+
+// Funcionalidad similar a FormCrearConsultante
 
 export default function FormModOtros(props) {
   const defaultValues = () => {

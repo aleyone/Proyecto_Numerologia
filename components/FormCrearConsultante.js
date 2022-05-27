@@ -4,7 +4,6 @@ import React from "react";
 import { useState } from "react";
 
 import mapeo from "../utils/probando";
-
 import { añadirEstudio } from "../firebase-config";
 import { getUsuario } from "../screens/Login";
 import { getFecha } from "../utils/utils";
@@ -33,6 +32,11 @@ export default function FormCrearConsultante(props) {
   const [errorMes, setErrorMes] = useState("");
   const [errorAnyo, setErrorAnyo] = useState("");
 
+  /**
+   * Tras pulsar el botón para confirmar el guardado, validamos los datos, y si es true, 
+   * continuamos al mapeo de datos
+   * @returns 
+   */
   const validarFormulario = () => {
     if (!validarDatos()) {
       return;
@@ -40,10 +44,17 @@ export default function FormCrearConsultante(props) {
     mapeoDatos();
   };
 
+  /** 
+   * Seteamos el formulario conforme se introducen datos
+  */
   const onChange = (e, type) => {
     setForm({ ...form, [type]: e.nativeEvent.text });
   };
 
+  /**
+   * Validaciones sobre el formulario
+   * @returns true o false
+   */
   const validarDatos = () => {
     setErrorDia("");
     setErrorMes("");
@@ -114,7 +125,11 @@ export default function FormCrearConsultante(props) {
     return isValid;
   };
 
+  /**
+   * Con los datos introducidos se prepara una respuesta para guardar en base de datos
+   */
   const mapeoDatos = () => {
+    
     letters = (
       form.name.split() +
       form.lastName1.split() +
@@ -134,6 +149,9 @@ export default function FormCrearConsultante(props) {
     console.log(iniciales);
     const usuario = getUsuario();
     const fechaActual = getFecha();
+
+    // response y numerología serán un JSON de datos que obtenemos de 
+    // la función mapeo y transgeneracional
     const response = mapeo(letters, iniciales);
     const numerologia = transgeneracional(form.day, form.month, form.year)
     console.log("Hacemos un console de las letras por un return");
@@ -141,6 +159,7 @@ export default function FormCrearConsultante(props) {
     console.log("Prueba de transgeneracional desde crear consultante")
     console.log(numerologia)
 
+    // Preparamos la estructura de datos que se creará al guardar el consultante principal
     const data = {
       Autor: usuario,
       Activo: true,
@@ -164,6 +183,8 @@ export default function FormCrearConsultante(props) {
     };
 
     console.log("Vamos a grabar en BBDD");
+
+    // Guardamos el estudio y navegamos al Espacio personal pasando como props el formulario
     añadirEstudio("estudio", data);
     props.navegacion.navigation.navigate("Espacio", {form: form});
   };

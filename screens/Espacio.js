@@ -12,7 +12,7 @@ export default function Espacio(props) {
   const [estudios, setEstudios] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
+  // Se cargan los estudios del usuario que estén activos en base de datos
   useFocusEffect(useCallback(() => {
     (async () => {
       console.log("Entrando en Espacio para ver estudio antes y después: ", estudios)

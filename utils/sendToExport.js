@@ -3,11 +3,14 @@ import { View, StyleSheet, Platform, Text } from "react-native";
 import { Button } from "react-native-elements";
 import * as Print from "expo-print";
 import { shareAsync } from "expo-sharing";
-//import { basemap } from "../screens/NumerologiaEvolutiva";
 
+/**
+ * se recogen datos, el tipo de export y se exporta a PDF a través de un html
+ * @param {*} tipo se decide si se monta una tabla de evolutiva o de transgeneracional
+ * @param {*} basemap se reciben los datos con los que se montan las tablas en html
+ */
 export const sendToExport = (tipo, basemap) => {
-  //const base = basemap;
-  //const [impresora, setImpresora] = useState()
+
   console.log("He llegado a utils-sendToExport y esta es la base: ", basemap);
   console.log("Sigo aqui y esto es base0 ", basemap[0]);
   let html = `<html style="border: 5px solid #3b2870;">

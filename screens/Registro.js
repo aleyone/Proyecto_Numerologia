@@ -18,6 +18,7 @@ export default function Registro({ navigation }) {
   const [errorConfirm, setErrorConfirm] = useState("");
   const auth = getAuth(firebaseApp);
 
+  //  Validamos los datos y creamos el usuario
   const registrarUsuario = () => {
     if (!validarDatos()) {
       return;
@@ -51,8 +52,8 @@ export default function Registro({ navigation }) {
       }
 
       if (password !== confirmPass) {
-        Alert.alert("La contraseña y la confirmación no son iguales.");
-        // setErrorConfirm("La contraseña y la confirmación no son iguales.");
+        //Alert.alert("La contraseña y la confirmación no son iguales.");
+        setErrorConfirm("La contraseña y la confirmación no son iguales.");
         isValid = false;
       }
 
@@ -60,6 +61,7 @@ export default function Registro({ navigation }) {
     }
   };
 
+  // Aprovechamos para controlar posibles errores de registro
   const handleCreateUser = () => {
     if (email != "" && password != "" && confirmPass != "") {
       createUserWithEmailAndPassword(auth, email.toLowerCase(), password)

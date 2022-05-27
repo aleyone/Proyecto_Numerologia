@@ -125,13 +125,7 @@ export default function Navigation() {
             headerShown: false,
           }}
         />
-        <Stack.Screen
-          name="DrawNavigation"
-          component={DrawNavigation}
-          options={{
-            headerShown: false,
-          }}
-        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

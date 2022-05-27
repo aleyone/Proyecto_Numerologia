@@ -118,7 +118,8 @@ const mapeo = (letters, iniciales) => {
     return dameLetras;
   });
 
-  // Llamar funciones para completar
+  // Llamar funciones para completar y se devuelve un JSON con 
+  // datos para posteriormente grabar en BBDD
   rellenar();
   var listPuentes = numPuente(contadorLetras);
   var listEvolucion = numEvolucion();
@@ -132,6 +133,7 @@ const mapeo = (letters, iniciales) => {
   return dameDatos;
 };
 
+ 
 const rellenar = () => {
   if (hasUno == false) contadorLetras["uno"] = 0;
   if (hasDos == false) contadorLetras["dos"] = 0;
@@ -284,6 +286,7 @@ const numInconsciente = () => {
   return dataInconsciente;
 };
 
+// Según la letra se retorna un valor
 const valorLetra = (letras) => {
   var valor = 0;
   if (

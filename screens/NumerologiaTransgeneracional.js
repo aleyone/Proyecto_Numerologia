@@ -12,6 +12,8 @@ export default function NumerologiaTransgeneracional(props) {
   const [id, setId] = useState();
   const exportPDF = [];
 
+  //Obtenemos el estudio y traemos el calculo del transgeneracional 
+  // en data para luego actualizarlo
   useEffect(() => {
     (async () => {
       console.log(

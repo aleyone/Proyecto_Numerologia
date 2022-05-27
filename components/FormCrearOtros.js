@@ -5,6 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 import { updateData } from "../firebase-config";
 import { contadorHijos, contadorParejas, contadorHermanos, contadorPadres } from "../utils/utils";
 
+// Funcionamiento como FormCrearConsultante. En el momento del guardado se hace un update
 export default function FormCrearOtros(props) {
   const defaultValues = () => {
     return {

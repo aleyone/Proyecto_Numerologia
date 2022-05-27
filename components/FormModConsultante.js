@@ -13,7 +13,7 @@ import transgeneracional from "../utils/calcTransg";
 let letters = [];
 let estudioId ="";
 
-
+// Funcionalidad similar a FormCrearConsultante
 export default function FormModConsultante(props) {
   const [form, setForm] = useState();
   const [errorNombre, setErrorNombre] = useState("");

@@ -11,6 +11,9 @@ export default function NumerologiaEvolutiva(props) {
   const [evolucion, setEvolucion] = useState([]);
   const [inconsciente, setInconsciente] = useState([]);
   const exportPDF=[];
+
+  // Se preparan los datos de la tabla que se mostrará en la numerología evolutiva
+  // El estudio se ha pasado por props desde DetalleEstudio
   useEffect(() => {
     (() => {
       setEstudio(props.route.params.datos);
@@ -77,15 +80,12 @@ export default function NumerologiaEvolutiva(props) {
 
   console.log("Array del puente", puente);
 
+  // Preparamos los datos de la numerología evolutiva que habrá que exportar
   const exportar = () => {
     exportPDF.push(base, puente, evolucion, inconsciente)
     console.log("Desde numerologia evolutiva voy a exportar, ", exportPDF)
     sendToExport("evolutiva", exportPDF);
   }
-
-  const alerta = () => {
-    Alert.alert("Aquí iría la exportación de datos.");
-  };
 
   return (
     <ScrollView style={styles.container}>

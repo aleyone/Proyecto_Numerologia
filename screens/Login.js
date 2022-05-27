@@ -14,6 +14,8 @@ const initialState = {
 
 var usuario = "";
 
+//Aprovechamos que logamos al usuario para crear una constante 
+//que nos sirva como setter y getter del usuario
 export const setUsuario = (user) => {
   usuario = user;
 };
@@ -23,8 +25,7 @@ export const getUsuario = () => {
 };
 
 export default function Login(props) {
-  /* const [email1, setEmail] = useState("");
-  const [password1, setPassword] = useState("");*/
+
   const defaultValues = () => {
     return { email: "", password: "" };
   };
@@ -33,17 +34,13 @@ export default function Login(props) {
   const [errorCorreo, setErrorCorreo] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
 
-  const validarDatos = () => {
-    setErrorCorreo("");
-    setErrorPassword("");
-  };
-
   const onChange = (e, type) => {
     setForm({ ...form, [type]: e.nativeEvent.text });
   };
 
   const auth = getAuth(firebaseApp);
 
+  // Controlamos los errores en el .catch
   const handleSignIn = () => {
     if (form.email != "" && form.password != "") {
       if (validarEmail(form.email)) {

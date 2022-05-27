@@ -21,12 +21,15 @@ export default function DetalleEstudio(props) {
   const [id, setId] = useState();
   let familiaresVisibles = true;
 
+  // Obtenemos todos los datos necesarios para alimentar la pantalla
   useFocusEffect(useCallback(() => {
     (async () => {
       estudioId = props.route.params.estudioId;
       form = props.route.params.form;
       console.log("Esto es el id en el Detalle del Estudio");
       console.log(estudioId);
+
+      //Obtenemos el estudio con el id recibido desde Espacio
       const result = await unEstudio("estudio", props.route.params.estudioId);
       array.push(
         result.Datos_personales.Nombre_consultante.Nombre,
@@ -39,6 +42,7 @@ export default function DetalleEstudio(props) {
       setEstudio(result);
       setDatos(array);
       (async () => {
+        //Obtenemos los familiares que hay en dicho estudio
         const result = await obtenerFamiliar(
           "estudio",
           props.route.params.estudioId
@@ -55,6 +59,7 @@ export default function DetalleEstudio(props) {
     })();
    }, []));
 
+  // Confirmación para eliminar consultante
   const confirmarDelete = () => {
     Alert.alert("Eliminar usuario", "¿Estás seguro?", [
       { text: "Sí", onPress: () => eliminar() },
@@ -62,11 +67,13 @@ export default function DetalleEstudio(props) {
     ]);
   };
 
+  // Eliminamos el estudio
   const eliminar = async () => {
     await deleteEstudio("estudio", estudioId);
     props.navigation.navigate("Espacio");
   };
 
+  // Confirmación para eliminar familiar
   const confirmarDeleteFamiliar = (rol) => {
     Alert.alert("Eliminar familiar", "¿Estás seguro?", [
       { text: "Sí", onPress: () => eliminarFamiliar(rol) },
@@ -74,16 +81,19 @@ export default function DetalleEstudio(props) {
     ]);
   };
 
+  // Eliminar familiar
   const eliminarFamiliar = async (rol) => {
     console.log("Entramos en eliminarFamiliar");
     await deleteFamiliar("estudio", estudioId, rol);
    props.navigation.navigate("Trampa");
   };
 
+  // accedemos al formulario para editar datos del consultante
   const updateConsultante = () => {
     props.navigation.navigate("FormModConsultante", { estudioId: estudioId, form: form });
   };
-
+  
+  // accedemos al formulario para editar datos del familiar y le pasamos el rol a edita
   const updateFamiliar = (rol) => {
     props.navigation.navigate("FormModOtros", { estudioId: estudioId, rol: rol });
   };

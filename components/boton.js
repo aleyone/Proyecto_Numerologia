@@ -1,6 +1,14 @@
 import { Button } from "react-native-elements";
 import { StyleSheet, View } from "react-native";
 
+/**
+ * Funcionalidad que pretendía utilizar un botón tipo componente 
+ * para toda la aplicación. Finalmente se ha utilizado solo en 
+ * algunas funcionalidades
+ * 
+ * @param {} props se recoge título y la función a implementar
+ * @returns botón renderizado
+ */
 export default function Boton(props) {
   return (
     <View>

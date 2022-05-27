@@ -15,6 +15,7 @@ export const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export const db = firebase.firestore(firebaseApp);
 
+// Se añade en la colección los datos del consultante
 export const añadirEstudio = async (collection, data) => {
   try {
     const response = await db.collection(collection).add(data);
@@ -23,12 +24,14 @@ export const añadirEstudio = async (collection, data) => {
   }
 };
 
+// Se obtienen todos los documentos con su id
 export const obtenerEstudios = async (collection, user) => {
   const response = await db.collection(collection).get();
   const arrayData = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   return arrayData;
 };
 
+// Obtenemos los familiares del estudio que se pasa por parámetro
 export const obtenerFamiliar = async (collection, id) => {
   const response = db.collection(collection).doc(id);
   const detalle = await response.get();
@@ -43,6 +46,7 @@ export const obtenerFamiliar = async (collection, id) => {
   return arrayData;
 };
 
+// Se elimina el familiar que se indica según el rol que se recupera
 export const deleteFamiliar = async (collection, id, rol) => {
   console.log("¿¿Llegamos??");
   const rol2 = "Datos_familiares." + rol;
@@ -53,6 +57,7 @@ export const deleteFamiliar = async (collection, id, rol) => {
   console.log(rol, "actualizado en bbdd");
 };
 
+// Se recupera un estudio según el id recogido
 export const unEstudio = async (collection, id) => {
   const response = db.collection(collection).doc(id);
   const detalle = await response.get();
@@ -60,13 +65,17 @@ export const unEstudio = async (collection, id) => {
   return documento;
 };
 
+// Eliminamos el estudio según el id recogido
 export const deleteEstudio = async (collection, id) => {
   const doc = db.collection(collection).doc(id);
   await doc.delete();
 };
 
+// Se realiza el update según el tipo de información recibida
 export const updateData = async (collection, id, tipo, rol, datos) => {
   
+  // Si es del consultante, seteamos los datos y permitimos 
+  // que los datos previos persistan con merge: true
   if (tipo == "consultante") {
     console.log("Estamos en updateData y estás editando el consultante")
     console.log("Estos son los datos recibidos: ", datos)
@@ -74,6 +83,7 @@ export const updateData = async (collection, id, tipo, rol, datos) => {
     .doc(id)
     .set( datos, {merge:true} );
   console.log(tipo, "actualizado en bbdd");
+  // Si es de tipo familiar lo realizamos en un update
   } else if (tipo == "familiar") {
    const rol2 = "Datos_familiares." + rol;
     console.log("Estamos en update familiar ",rol2)
@@ -91,18 +101,11 @@ export const updateData = async (collection, id, tipo, rol, datos) => {
     .doc(id)
     .set({ Numerología_transgeneracional: {[rol2]:datos[index] }}, {merge:true});
     console.log(tipo, "actualizado en bbdd", datos[index])
-    })
-
-  
+    })  
   }
-
-  //const doc =
-  /*db.collection(collection)
-    .doc(id)
-    .update({ [rol2]: datos });
-  console.log(rol, "añadido en bbdd");*/
 };
 
+// Obtenemos las fechas del consultante y los familiares según el id
 export const obtenerFechas = async (collection, id) => {
   const response = db.collection(collection).doc(id);
   const detalle = await response.get();
@@ -120,8 +123,6 @@ export const obtenerFechas = async (collection, id) => {
     Anyo: documento.Datos_personales.Fecha_de_nacimiento.Anyo,
   });
   console.log("Este es el arrayData después del arrayUser", arrayData);
-  //Primero hacemos push de la fecha del usuario para la posición [0]
-  // Luego recorremos los familiares para ver si hay datos y añadimos a continuación
   if (familiares != null) {
     Object.keys(familiares).forEach(function (key) {
       var val = familiares[key];
@@ -152,6 +153,8 @@ export const obtenerFechas = async (collection, id) => {
   return arrayData;
 };
 
+// Obtenemos los datos del consultante para que se cargue la 
+// información en los inputs de modificación de datos del consultante o familiar
 export const getConsultanteToUpdate = async (collection, id, modificado, rol) => {
   console.log("He llegado hasta aquí");
   console.log("Recibo colección: ", collection);
