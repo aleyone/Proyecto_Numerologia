@@ -69,7 +69,8 @@ export default function Registro({ navigation }) {
           console.log("Cuenta creada");
           const user = userCredential.user;
           console.log(user);
-          navigation.navigate("Espacio");
+          Alert.alert("Usuario creado correctamente")
+          navigation.navigate("Welcome");
         })
         .catch((error) => {
           if (error.message == "Firebase: Error (auth/user-not-found).") {
