@@ -69,7 +69,7 @@ export default function Registro({ navigation }) {
           console.log("Cuenta creada");
           const user = userCredential.user;
           console.log(user);
-          navigation.navigate("DrawNavigation");
+          navigation.navigate("Espacio");
         })
         .catch((error) => {
           if (error.message == "Firebase: Error (auth/user-not-found).") {
@@ -79,6 +79,12 @@ export default function Registro({ navigation }) {
             error.message == "Firebase: Error (auth/wrong-password)."
           ) {
             setErrorPassword("Contraseña no válida");
+
+          } else if (
+            error.message=="Firebase: Error (auth/email-already-in-use)."
+          )
+          {
+            setErrorEmail("Correo en uso")
           } else setErrorEmail(error.message);
           //console.log(error);
         });

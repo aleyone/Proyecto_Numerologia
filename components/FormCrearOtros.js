@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Input, Button } from "react-native-elements";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
@@ -133,7 +133,8 @@ export default function FormCrearOtros(props) {
           form.rol,
           form
         );
-      } else errorMessage = "Máximo dos padres.";
+      //} else errorMessage = "Máximo dos padres.";
+        } else Alert.alert("Máximo dos padres")
     } else if (rolName == "madre") {
       if (madre < 1) {
         form.rol = "Madre";

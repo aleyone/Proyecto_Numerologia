@@ -13,6 +13,7 @@ import { useFocusEffect } from "@react-navigation/core";
 let estudioId = "";
 let form = [];
 
+
 export default function DetalleEstudio(props) {
   const [estudio, setEstudio] = useState({});
   const [datos, setDatos] = useState([]);
@@ -155,15 +156,18 @@ export default function DetalleEstudio(props) {
             <View style={styles.contenedorEstudios}>
               {familiaresVisibles &&
                 familiares.map((familiar, i) => {
+                  let indice;
+                  if ((familiar.rol).includes("Hermano") ||(familiar.rol).includes("Hijo")||(familiar.rol).includes("Pareja")||(familiar.rol).includes("Padre")){
+                  indice = (familiar.rol).indexOf(" ")}
                   return (
                     <View style={styles.subcontain} key={i}>
                       <View style={styles.list}>
                         <ListItem bottomDivider>
                           <ListItem.Chevron />
                           <ListItem.Content>
-                            <ListItem.Title>Rol: {familiar.rol}</ListItem.Title>
+                            <ListItem.Title>Rol: {(familiar.rol).substring(0, indice)}</ListItem.Title>
                             <ListItem.Subtitle>
-                              {familiar.name} - {familiar.day}/{familiar.month}/{familiar.year}
+                              {familiar.name} - {familiar.day} / {familiar.month} / {familiar.year}
                             </ListItem.Subtitle>
                           </ListItem.Content>
                         </ListItem>
