@@ -9,6 +9,7 @@ import {
 } from "../firebase-config";
 import Boton from "../components/boton";
 import { useFocusEffect } from "@react-navigation/core";
+import { setAbuelaMaterna, setAbuelaPaterna, setAbueloMaterno, setAbueloPaterno, setMadres, setPadres } from "../utils/utils";
 
 let estudioId = "";
 let form = [];
@@ -53,8 +54,37 @@ export default function DetalleEstudio(props) {
           result
         );
         if (result != null) {
+          var padre=0;
+          var madre=0;
+          var abopat=0;
+          var abapat=0;
+          var abomat=0;
+          var abamat=0;
+          result.map((registro)=>{
+            if((registro.rol).includes("Padre")) {
+              padre++              
+            } else if((registro.rol).includes("Madre")) {
+              madre++
+            } else if((registro.rol).includes("Abuelo paterno")) {
+              abopat++
+            } else if((registro.rol).includes("Abuelo materno")) {
+              abomat++
+            } else if((registro.rol).includes("Abuela paterna")) {
+              abapat++
+            } else if((registro.rol).includes("Abuela materna")) {
+              abamat++
+            }
+          })
+          setPadres(padre)
+          setMadres(madre)
+          setAbueloPaterno(abopat)
+          setAbueloMaterno(abomat)
+          setAbuelaPaterna(abapat)
+          setAbuelaMaterna(abamat) 
+
           setFamiliares(result);
           familiaresVisibles == true;
+        
         }
       })();
     })();
@@ -86,6 +116,20 @@ export default function DetalleEstudio(props) {
   const eliminarFamiliar = async (rol) => {
     console.log("Entramos en eliminarFamiliar");
     await deleteFamiliar("estudio", estudioId, rol);
+    
+      if((rol).includes("Padre")) {
+        setPadres(-1)
+      } else if((rol).includes("Madre")) {
+        setMadres(-1)
+      } else if((rol).includes("Abuelo_paterno")) {
+        setAbueloPaterno(-1)
+      } else if((rol).includes("Abuelo_materno")) {
+        setAbueloMaterno(-1)
+      } else if((rol).includes("Abuela_paterna")) {
+        setAbuelaPaterna(-1)
+      } else if((rol).includes("Abuela_materna")) {
+        setAbuelaMaterna(-1) }
+    
    props.navigation.navigate("Trampa");
   };
 
@@ -156,9 +200,8 @@ export default function DetalleEstudio(props) {
             <View style={styles.contenedorEstudios}>
               {familiaresVisibles &&
                 familiares.map((familiar, i) => {
-                  let indice;
-                  if ((familiar.rol).includes("Hermano") ||(familiar.rol).includes("Hijo")||(familiar.rol).includes("Pareja")||(familiar.rol).includes("Padre")){
-                  indice = (familiar.rol).indexOf(" ")}
+                  //if ((familiar.rol).includes("Hermano") ||(familiar.rol).includes("Abuela paterna")||(familiar.rol).includes("Abuela_materna")||(familiar.rol).includes("Abuelo_materno")||(familiar.rol).includes("Abuelo_paterno")||(familiar.rol).includes("Madre")||(familiar.rol).includes("Hijo")||(familiar.rol).includes("Pareja")||(familiar.rol).includes("Padre")){
+                  let indice = (familiar.rol).indexOf("_")//}
                   return (
                     <View style={styles.subcontain} key={i}>
                       <View style={styles.list}>

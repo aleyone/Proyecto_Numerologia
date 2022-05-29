@@ -116,7 +116,7 @@ export const obtenerFechas = async (collection, id) => {
   const familiares = documento.Datos_familiares;
 
   arrayData.push({
-    Rol: "Consultante",
+    Rol: "Consultante_",
     Nombre: documento.Datos_personales.Nombre_consultante.Nombre,
     Dia: documento.Datos_personales.Fecha_de_nacimiento.Dia,
     Mes: documento.Datos_personales.Fecha_de_nacimiento.Mes,

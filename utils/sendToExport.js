@@ -20,7 +20,7 @@ export const sendToExport = (tipo, basemap) => {
     </head>
   <body bgcolor="#d8d0ee">
   <div style="margin-top: 20px; margin-bottom: 50px;">
-  <span style="padding: 20px; color: #6f0e8a; font-size: 20px; font-weight: bold; margin-bottom: 25px"}}> Numerología Evolutiva </span>
+  <span style="padding: 20px; color: #6f0e8a; font-size: 20px; font-weight: bold; margin-bottom: 25px"}}> Numerología </span>
   </div>
     
   
@@ -92,11 +92,12 @@ export const sendToExport = (tipo, basemap) => {
   </table>`;
   } else if (tipo == "familiar") {
     basemap.map((registro, index) => {
+      let indice = (registro.Rol).indexOf("_")
       console.log("hola, soy familiar en export", basemap[index]);
 
       html +=
         `<br><p align="center" border="1" bordercolor="red">` +
-        registro.Rol +
+        (registro.Rol).substring(0, indice) +
         `: ` +
         registro.Nombre +
         `</p><br><table align="left" border="1" bordercolor="#3b2870">

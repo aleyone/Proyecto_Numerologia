@@ -53,11 +53,13 @@ export default function NumerologiaTransgeneracional(props) {
     <ScrollView style={styles.container}>
       <Text>
         {data.map((datos, index) => {
+          let indice = (datos.Rol).indexOf("_")
+
           return (
             <View key={index}>
               <View style={styles.nombre}>
                 <Text style={styles.textNom}>
-                  {datos.Rol}: </Text><Text>{datos.Nombre}
+                {(datos.Rol).substring(0, indice)}: </Text><Text>{datos.Nombre}
                 </Text>
               </View>
               <View style={styles.pinaculo}>

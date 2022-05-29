@@ -2,6 +2,11 @@ var hijo=0;
 var pareja=0;
 var hermano=0;
 var padre = 0;
+var madre=0;
+var abuelopaterno=0;
+var abuelomaterno=0;
+var abuelapaterna=0;
+var abuelamaterna=0;
 
 export function validarEmail(email) {
   const re =
@@ -42,10 +47,73 @@ export function contadorHermanos() {
   return hermano;  
 }
 
+export function setPadres(padres){
+  var contador=0;
+  contador+=padres
+  padre=contador;
+  console.log("hay "+padre+" padres")
+}
+
 export function contadorPadres() {
-  if(padre <=1){
-    padre++;
-  } 
   return padre;
+}
+
+export function setMadres(madres){
+  var contador=0;
+  contador+=madres
+  madre=contador
+  console.log("hay "+madre+" madres")
+}
+
+export function contadorMadres() {
+  return madre;
+}
+
+export function setAbueloPaterno(abopat){
+  var contador=0;
+  contador+=abopat;
+  abuelopaterno=contador
+  console.log("hay "+abuelopaterno+" abuelo paterno")
+}
+
+export function contadorAbueloPaterno() {
+  abuelopaterno++;
+  return abuelopaterno;
+}
+
+export function setAbuelaPaterna(abapat){
+  var contador=0;
+  contador+=abapat
+  abuelapaterna=contador
+  console.log("hay "+abuelapaterna+" abuela paterna")
+}
+
+export function contadorAbuelaPaterna() {
+  abuelapaterna++;
+  return abuelapaterna;
+}
+
+export function setAbueloMaterno(abomat){
+  var contador=0;
+  contador+=abomat;
+  abuelomaterno=contador
+  console.log("hay "+abuelomaterno+" abuelo materno")
+}
+
+export function contadorAbueloMaterno() {
+  abuelomaterno++;
+  return abuelomaterno;
+}
+
+export function setAbuelaMaterna(abamat){
+  var contador=0;
+  contador+=abamat;
+  abuelamaterna=contador
+  console.log("hay "+abuelamaterna+" abuelamaterna")
+}
+
+export function contadorAbuelaMaterna() {
+  abuelamaterna++;
+  return abuelamaterna;
 }
 

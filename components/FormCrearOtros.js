@@ -3,7 +3,7 @@ import { Input, Button } from "react-native-elements";
 import { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { updateData } from "../firebase-config";
-import { contadorHijos, contadorParejas, contadorHermanos, contadorPadres } from "../utils/utils";
+import { contadorHijos, contadorParejas, contadorHermanos, contadorPadres, contadorMadres, contadorAbueloPaterno, contadorAbueloMaterno, contadorAbuelaPaterna, contadorAbuelaMaterna, setPadres, setMadres, setAbueloPaterno, setAbueloMaterno, setAbuelaPaterna, setAbuelaMaterna } from "../utils/utils";
 
 // Funcionamiento como FormCrearConsultante. En el momento del guardado se hace un update
 export default function FormCrearOtros(props) {
@@ -16,14 +16,6 @@ export default function FormCrearOtros(props) {
       year: 0,
     };
   };
-
-  let padre = 0,
-    madre = 0,
-    abuelopaterno = 0,
-    abuelomaterno = 0,
-    abuelamaterna = 0,
-    abuelapaterna = 0;
-  let errorMessage = "";
 
   const [form, setForm] = useState(defaultValues());
   const [rolName, setRol] = useState();
@@ -123,8 +115,8 @@ export default function FormCrearOtros(props) {
     if (rolName == "padre") {
       var padre = contadorPadres();
       
-      if (padre <= 2) {
-        form.rol = "Padre " + padre;        
+      if (padre <= 1) {
+        form.rol = "Padre_" + (padre+1);        
         console.log("Padre");
         updateData(
           "estudio",
@@ -136,9 +128,9 @@ export default function FormCrearOtros(props) {
       //} else errorMessage = "Máximo dos padres.";
         } else Alert.alert("Máximo dos padres")
     } else if (rolName == "madre") {
-      if (madre < 1) {
-        form.rol = "Madre";
-        madre++;
+      var madre = contadorMadres();
+      if (madre <=1) {
+        form.rol = "Madre_" +(madre+1);
         console.log("Madre");
         updateData(
           "estudio",
@@ -147,34 +139,34 @@ export default function FormCrearOtros(props) {
           form.rol,
           form
         );
-      } else errorMessage = "Ya has puesto una madre";
+      } else Alert.alert("Máximo dos madres")
     } else if (rolName == "hermano/a") {
       var hermano = contadorHermanos()      
-      form.rol = "Hermano " + hermano;
+      form.rol = "Hermano_" + hermano;
       console.log(form.rol);
       console.log("Herman@");
       updateData("estudio", props.props.route.params.estudioId, "familiar",form.rol, form);
     } else if (rolName == "hijo/a") {
       var hijo = contadorHijos()      
-      form.rol = "Hijo " + hijo;
+      form.rol = "Hijo_" + hijo;
       console.log("Hij@");
       updateData("estudio", props.props.route.params.estudioId, "familiar",form.rol, form);
     } else if (rolName == "abuelopaterno") {
-      if (abuelopaterno < 1) {
-        form.rol = "Abuelo paterno";
-        abuelopaterno++;
-        console.log("Abuelo paterno");
+      var abuelopaterno=contadorAbueloPaterno()
+      if (abuelopaterno <= 1) {
+        form.rol = "Abuelo paterno_"+(abuelopaterno+1);
+        console.log("Abuelo_paterno");
         updateData(
           "estudio",
           props.props.route.params.estudioId, "familiar",
           form.rol,
           form
         );
-      } else errorMessage = "Ya hay un abuelo paterno en la bbdd";
+      } else Alert.alert("Máximo un abuelo paterno")
     } else if (rolName == "abuelomaterno") {
-      if (abuelomaterno < 1) {
-        form.rol = "Abuelo materno";
-        abuelomaterno++;
+      var abuelomaterno = contadorAbueloMaterno()
+      if (abuelomaterno <= 1) {
+        form.rol = "Abuelo materno_"+(abuelomaterno+1);
         console.log("Abuelo materno");
         updateData(
           "estudio",
@@ -182,11 +174,11 @@ export default function FormCrearOtros(props) {
           form.rol,
           form
         );
-      } else errorMessage = "Ya hay un abuelo materno en la bbdd";
+      } else Alert.alert("Máximo un abuelo materno")
     } else if (rolName == "abuelapaterna") {
-      if (abuelapaterna < 1) {
-        form.rol = "Abuela paterna";
-        abuelapaterna++;
+      var abuelapaterna = contadorAbuelaPaterna()
+      if (abuelapaterna <= 1) {
+        form.rol = "Abuela paterna_"+(abuelapaterna+1);
         console.log("Abuela paterna");
         updateData(
           "estudio",
@@ -194,11 +186,11 @@ export default function FormCrearOtros(props) {
           form.rol,
           form
         );
-      } else errorMessage = "Ya hay una abuela paterna en la bbdd";
+      } else Alert.alert("Máximo una abuela paterna")
     } else if (rolName == "abuelamaterna") {
-      if (abuelamaterna < 1) {
-        form.rol = "Abuela materna";
-        abuelamaterna++;
+      var abuelamaterna = contadorAbuelaMaterna();
+      if (abuelamaterna <= 1) {
+        form.rol = "Abuela materna_"+(abuelamaterna+1);
         console.log("Abuela materna");
         updateData(
           "estudio",
@@ -206,10 +198,10 @@ export default function FormCrearOtros(props) {
           form.rol,
           form
         );
-      } else errorMessage = "Ya hay un abuela materna en la bbdd";
+      } else Alert.alert("Máximo una abuela materna")
     } else if (rolName == "pareja") {
       var pareja = contadorParejas()      
-      form.rol = "Pareja " + pareja;
+      form.rol = "Pareja_" + pareja;
       console.log("Pareja");
       updateData("estudio", props.props.route.params.estudioId, "familiar",form.rol, form);
     }

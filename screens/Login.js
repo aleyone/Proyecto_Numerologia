@@ -67,7 +67,7 @@ export default function Login(props) {
             } else Alert.alert(error.message);
           });
       } else setErrorCorreo("Formato de correo incorrecto")
-    }
+    } else Alert.alert("Introduce datos")
   };
 
   return (
